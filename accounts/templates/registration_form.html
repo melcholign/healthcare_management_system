@@ -1,0 +1,89 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<form action="{% block form_action %}{% endblock %}" method="POST">
+    {% csrf_token %}
+    <h1>{% block form_heading %}{% endblock %}</h1>
+    {% block form_fields %}{% endblock %}
+    <p class="btn-container"><button>Register</button></p>
+</form>
+{% endblock %}
+
+{% block page_style %}
+<style>
+    main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fafcff;
+    }
+
+    form {
+        margin-top: 50px;
+        margin-bottom: 50px;
+        padding: 20px 40px;
+        border-radius: 5px;
+        box-shadow: 0px 5px 10px 0px lightgray;
+        background-color: white;
+    }
+
+    form h2 {
+        text-align: center;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    input {
+        box-sizing: border-box;
+        padding: 10px 10px;
+        width: 100%;
+        font-size: 1.2rem;
+        border: none;
+        outline: none;
+        border-radius: 10px;
+        box-shadow: inset 0px 0px 1px 1px lightgray;
+    }
+
+    input:focus {
+        box-shadow: inset 0px 0px 7px 1px lightgray;
+    }
+
+    button {
+        width: 75%;
+        margin: 0px auto;
+        padding: 10px 30px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border-radius: 5px;
+        border: 2px solid transparent;
+        background-color: #00C180;
+        color: white;
+        box-shadow: 0px 2px 5px 0px lightgray;
+    }
+
+    button:hover {
+        background-color: white;
+        border-color: #00C180;
+        color: #00C180;
+    }
+
+    button:active {
+        background-color: #00C180;
+        border-color: transparent;
+        color: white;
+    }
+
+    .btn-container {
+        margin: 20px 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+{% block field_style %}{% endblock %}
+{% endblock %}

@@ -25,13 +25,13 @@ def registerDoctor(request):
         cursor.execute(userInsertQuery, [password, False, username, first_name, last_name, email, False, True, date.today()])
 
         # Get the ID of the inserted user
-        doctor = cursor.lastrowid
+        id = cursor.lastrowid
 
         doctorInsertQuery = """
             INSERT INTO accounts_doctor(id, specialty, department, qualification, contact) 
             VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
-        cursor.execute(doctorInsertQuery, [user_id, specialty, department, qualification, contact])
+        cursor.execute(doctorInsertQuery, [id, specialty, department, qualification, contact])
     return render(request, 'registerDoctor.html')
 
 

@@ -1,36 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Doctor</title>
-</head>
-<body>
-    <h2>Register Doctor</h2>
-    <form action="/accounts/registerDoctor" method="post">
-        {% csrf_token %}
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name"><br>
-        
-        <label for="speciality">Speciality:</label><br>
-        <input type="text" id="speciality" name="speciality"><br>
-        
-        <label for="department">Department:</label><br>
-        <input type="text" id="department" name="department"><br>
-        
-        <label for="qualification">Qualification:</label><br>
-        <input type="text" id="qualification" name="qualification"><br>
-        
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email"><br>
-        
-        <label for="contact">Contact:</label><br>
-        <input type="text" id="contact" name="contact"><br>
-        
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password"><br><br>
-        
-        <input type="submit" value="Submit">
-    </form>
-</body>
-</html>
+{% extends "registration_form.html" %}
+
+{% block title %} Doctor Registration Page {% endblock %}
+
+{% block form_action %} {% url 'registerDoctor' %} {% endblock %}
+
+{% block form_heading %} Doctor Registration {% endblock %}
+{% block form_fields %}
+<p>
+    <label for="first-name">First Name:</label>
+    <input type="text" id="first-name" name="first_name" required>
+</p>
+<p>
+    <label for="last-name">Last Name:</label>
+    <input type="text" id="last-name" name="last_name" required>
+</p>
+<p>
+    <label for="specialty">Specialty:</label>
+    <input type="text" id="speciality" name="specialty" required>
+</p>
+<p>
+    <label for="department">Department:</label>
+    <input type="text" id="department" name="department" required>
+</p>
+<p>
+    <label for="qualification">Qualification:</label>
+    <input type="text" id="qualification" name="qualification" required>
+</p>
+<p>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+</p>
+<p>
+    <label for="contact">Contact:</label>
+    <input type="text" id="contact" name="contact" required>
+</p>
+<p>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+</p>
+<p>
+    <label for="confirm-password">Confirm Password:</label>
+    <input type="password" id="confirm-password" name="confirm_password" required>
+</p>
+{% endblock %}
