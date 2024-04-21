@@ -1,31 +1,37 @@
 from django.shortcuts import render
 from django.db import connection
 from django.contrib.auth.models import User
+from datetime import date
 
 
 def registerDoctor(request):
     cursor = connection.cursor()
     if request.method == "POST":
-        name = request.POST['name']
-        speciality = request.POST['speciality']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        specialty = request.POST['specialty']
         department = request.POST['department']
         qualification = request.POST['qualification']
         email = request.POST['email']
         contact = request.POST['contact']
         password = request.POST['password']
         
+        username = email[0:email.find('@')]
+        
         # Create a new user instance for the doctor
-        userInsertQuery = "INSERT INTO auth_user(username, password) VALUES (%s, %s)"
-        cursor.execute(userInsertQuery, [email, password])
+        userInsertQuery = '''INSERT INTO auth_user(password, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined)
+             values (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        '''
+        cursor.execute(userInsertQuery, [password, False, username, first_name, last_name, email, False, True, date.today()])
 
         # Get the ID of the inserted user
-        user_id = cursor.lastrowid
+        doctor = cursor.lastrowid
 
         doctorInsertQuery = """
-            INSERT INTO accounts_doctor(user_id, name, speciality, department, qualification, email, contact) 
+            INSERT INTO accounts_doctor(id, specialty, department, qualification, contact) 
             VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
-        cursor.execute(doctorInsertQuery, [user_id, name, speciality, department, qualification, email, contact])
+        cursor.execute(doctorInsertQuery, [user_id, specialty, department, qualification, contact])
     return render(request, 'registerDoctor.html')
 
 
