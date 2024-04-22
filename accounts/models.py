@@ -34,5 +34,5 @@ class Institution(models.Model):
     name = models.CharField(max_length=100)
     address = models.CharField(primary_key=True, max_length=200)
     
-def __str__(self):
+    def __str__(self):
         return self.name
