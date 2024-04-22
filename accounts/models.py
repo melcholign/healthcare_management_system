@@ -8,6 +8,7 @@ class Doctor(models.Model):
     specialty = models.CharField(max_length=100)
     department = models.CharField(max_length=100)
     qualification = models.TextField()
+    workplace = models.ForeignKey('Institution', on_delete=models.RESTRICT)
     contact = models.BigIntegerField()  # A ten digit number for mobile number
 
     def __str__(self):
@@ -27,3 +28,11 @@ class Patient(models.Model):
 
     def __str__(self):
         return self.user.first_name + ' ' + self.user.last_name
+    
+class Institution(models.Model):
+    """Represents a medical/healthcare institution that employs doctors"""
+    name = models.CharField(max_length=100)
+    address = models.CharField(primary_key=True, max_length=200)
+    
+def __str__(self):
+        return self.name
