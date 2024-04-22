@@ -6,6 +6,9 @@
 
 {% block form_heading %} Patient Registration {% endblock %}
 {% block form_fields %}
+<p class="error-message">
+    {{error_message}}
+</p>
 <p>
     <label for="first-name">First Name:</label>
     <input type="text" id="first-name" name="first_name" required>
