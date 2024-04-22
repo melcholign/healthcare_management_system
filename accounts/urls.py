@@ -6,5 +6,4 @@ from .import views
 urlpatterns = [
     path('registerDoctor',views.registerDoctor,name='registerDoctor'),
     path('registerPatient',views.registerPatient,name='registerPatient'),
-    
 ]
