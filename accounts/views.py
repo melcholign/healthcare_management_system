@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.db import connection
-from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from datetime import date
-
+from util import dictfetchall
 
 def registerDoctor(request):
     cursor = connection.cursor()
@@ -84,21 +85,53 @@ def registerPatient(request):
 
 
 def login(request):
+    session_data = request.session
+    
+    if 'account_data' in session_data:    
+        return HttpResponseRedirect('account_page')
+    
+    context = {}
+    
     if request.method == "POST":
         email = request.POST['email']
         password = request.POST['password']
-        cursor = connection.cursor()
-
-        # Check if the user exists
-        userQuery = "SELECT * FROM auth_user WHERE email = %s AND password = %s"
-        cursor.execute(userQuery, [email, password])
-        results = cursor.fetchall()
-        if len(results) > 0:
-            user = results[0]
-            request.session['user_id'] = user[0]
-            request.session['email'] = user[1]
-            return render(request, 'index.html')
-        else:
-            return render(request, 'login.html', {'error': 'Invalid email or password'})
         
-    return render(request, 'login.html')
+        with connection.cursor() as cursor:
+            # Check if the user exists
+            userQuery = "SELECT * FROM auth_user WHERE email = %s AND password = %s"
+            cursor.execute(userQuery, [email, password])
+            results = dictfetchall(cursor)
+            
+        if results:
+            user = results[0]
+            session_data['account_data'] = {
+                'account_id': user['id'],
+                'account_type': __get_account_type(user['id']),
+            }
+            
+            return HttpResponseRedirect(reverse('account_page'))
+
+        else:
+            context['error_message'] = 'Invalid email or password'
+            
+    return render(request, 'login.html', context)
+
+def logout(request):
+    try:
+        del request.session['account_data']
+    except KeyError:
+        pass
+    
+    return HttpResponseRedirect(reverse('login'))
+
+def get_account_page(request):
+    if 'account_data' not in request.session:
+        HttpResponseRedirect(reverse('login'))
+        
+    template_name = 'doctor_dashboard.html' if request.session['account_data']['account_type'] == 'doctor' else 'patient_portal.html'
+    return render(request, template_name)
+
+def __get_account_type(user_id):
+    with connection.cursor() as cursor:
+        cursor.execute(f'SELECT * from accounts_doctor where user_id={user_id}')
+        return 'doctor' if cursor.fetchall() else 'patient'
