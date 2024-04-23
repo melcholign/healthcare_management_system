@@ -5,12 +5,26 @@
     {% csrf_token %}
     <h1>{% block form_heading %}{% endblock %}</h1>
     {% block form_fields %}{% endblock %}
-    <p class="btn-container"><button>Register</button></p>
+    <p class="btn-container"><button>{% block submit_txt %}{% endblock %}</button></p>
 </form>
 {% endblock %}
 
 {% block page_style %}
 <style>
+    nav a {
+        padding: 10px 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: white;
+    }
+
+    nav a:hover {
+        background-color: #008458;
+        box-shadow: inset 0px 0px 10px 0px #00000020;
+    }
+
     main {
         display: flex;
         justify-content: center;

@@ -1,14 +1,19 @@
-{% extends "registration_form.html" %}
+{% extends "base_accounts.html" %}
 
 {% block title %} Patient Registration Page {% endblock %}
 
-{% block form_action %} {% url 'registerPatient' %} {% endblock %}
+{% block nav_list %}
+<li><a href="{% url 'registerDoctor' %}">Doctor Registration</a></li>
+<li><a href="{% url 'login' %}">Login</a></li> 
+{% endblock %}
 
 {% block form_heading %} Patient Registration {% endblock %}
 {% block form_fields %}
+{% if error_message %}
 <p class="error-message">
     {{error_message}}
 </p>
+{% endif %}
 <p>
     <label for="first-name">First Name:</label>
     <input type="text" id="first-name" name="first_name" required>
@@ -49,6 +54,9 @@
     <input type="password" id="confirm-password" name="confirm_password" required>
 </p>
 {% endblock %}
+
+{% block submit_txt %}Register{% endblock %}
+
 {% block field_style %}
 <style>
     legend {
