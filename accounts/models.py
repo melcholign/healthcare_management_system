@@ -66,3 +66,6 @@ class Availability(models.Model):
                                    violation_error_message='Start time of availability must be less than its end time',
                                    name='check_availability_time'),
         ]
+        
+    def __str__(self):
+        return self.doctor.__str__() + " - " + str(self.start_time) + " - " + str(self.end_time) + " - " + self.work_day

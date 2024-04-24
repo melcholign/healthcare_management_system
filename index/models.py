@@ -8,10 +8,10 @@ class Appointment(models.Model):
     doctor_schedule = models.ForeignKey(Availability, on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     date = models.DateField()
-    visited_time = models.BooleanField(null=True, blank=True)
+    visited_time = models.TimeField(null=True, blank=True)
 
     def __str__(self):
-        return (self.doctor_schedule.doctor + " - " + self.patient + " - " + str(self.date) 
+        return (str(self.doctor_schedule.doctor) + " - " + str(self.patient) + " - " + str(self.date) 
                 + " - " + str(self.doctor_schedule.start_time) + " - " + str(self.doctor_schedule.end_time))
 
 class Disposals(models.Model):

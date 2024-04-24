@@ -4,6 +4,7 @@ from accounts.models import Doctor, Patient
 from .models import Appointment
 from django.db import connection
 from django.contrib.auth.models import User
+from util import dictfetchall
 
 # Create your views here.
 def home(request):
@@ -29,4 +30,29 @@ def makeAppointment(request):
 
     return render(request, 'makeAppointment.html')
 
-
+def __fetch_doctor_schedules(patient_id):
+    doctor_schedules = []
+    
+    with connection.cursor() as cursor:
+        cursor.execute('''SELECT d.id AS id, first_name, last_name, specialty, i.name AS workplace
+            FROM auth_user AS u, accounts_doctor AS d, accounts_institution AS i
+            WHERE u.id=user_id and available=1 and d.workplace_id=i.address''')
+        available_doctors = dictfetchall(cursor)
+        
+        for doctor in available_doctors:
+            cursor.execute(f'''
+                (SELECT work_day, start_time, end_time
+                FROM accounts_availability
+                WHERE doctor_id={doctor['id']})
+                EXCEPT
+                (SELECT work_day, start_time, end_time 
+                FROM accounts_availability as ava, index_appointment
+                WHERE doctor_id={doctor['id']} and doctor_schedule_id=ava.id and patient_id={patient_id})
+            ''')
+            
+            doctor_schedules += [{
+                    'doctor': doctor,
+                    'schedules': dictfetchall(cursor)
+                }]
+            
+    return doctor_schedules
