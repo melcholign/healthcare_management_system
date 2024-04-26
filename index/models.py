@@ -9,6 +9,7 @@ class Appointment(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     date = models.DateField()
     visited_time = models.TimeField(null=True, blank=True)
+    visited = models.BooleanField(default=False)
 
     def __str__(self):
         return (str(self.doctor_schedule.doctor) + " - " + str(self.patient) + " - " + str(self.date) 

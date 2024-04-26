@@ -7,6 +7,25 @@ from util import dictfetchall, next_weekday_date, get_account_id
 def home(request):
     return render(request, 'index.html')
 
+def appointment_list(request):
+    """ 
+    Generates a list of appointments made by a patient
+    """
+    context = {}
+    
+    # Assuming that a logged-in patient account invoked this view
+    account_data = request.session['account_data']
+    patient_id = get_account_id(account_data['account_id'], account_data['account_type'])
+    
+    if request.method == 'POST':
+        with connection.cursor() as cursor:
+            cursor.execute(f'DELETE FROM index_appointment WHERE id={request.POST["cancel"]}')
+            
+    context['appointment_list'] = __fetch_appointment_list(patient_id)
+    
+    return render(request, 'appointment_list.html', context)
+
+
 def make_appointment(request):
     """
     Provides the mechanisms by which valid appointments can be made
@@ -75,7 +94,21 @@ def make_appointment(request):
 
     return render(request, 'make_appointment.html', context)
 
-
+def __fetch_appointment_list(patient_id):
+    with connection.cursor() as cursor:
+        cursor.execute(f'''
+                       SELECT app.id AS id, date, start_time, end_time, CONCAT(first_name, " ", last_name) AS doctor_name,
+                       specialty, inst.name AS workplace, visited
+                       FROM index_appointment AS app
+                       JOIN accounts_availability AS ava ON doctor_schedule_id=ava.id
+                       JOIN accounts_doctor AS doc ON doctor_id=doc.id
+                       JOIN accounts_institution as inst ON workplace_id=address
+                       JOIN auth_user AS user ON user_id=user.id
+                       WHERE patient_id={patient_id}
+                       ORDER BY date, start_time
+                       ''')
+        
+        return dictfetchall(cursor)
 
 def __fetch_doctor_schedule_list(patient_id):
     """

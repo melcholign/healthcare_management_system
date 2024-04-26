@@ -1,0 +1,73 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Appointment List{% endblock %}
+
+{% block content %}
+<table>
+    <thead>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Doctor Name</th>
+        <th>Specialty</th>
+        <th>Workplace</th>
+        <th>Visited</th>
+        <th></th>
+    </thead>
+    <tbody>
+        {% if appointment_list %}
+        {% for appointment in appointment_list %}
+        <tr>
+            <td>{{appointment.date}}</td>
+            <td>{{appointment.start_time}} - {{appointment.end_time}}</td>
+            <td>{{appointment.doctor_name}}</td>
+            <td>{{appointment.specialty}}</td>
+            <td>{{appointment.workplace}}</td>
+            <td>{% if appointment.visited %} YES {% else %} NO {% endif %}</td>
+            <td>
+                <form action="{% url 'appointment_list' %}" method="post">
+                    {% csrf_token %}
+                    <button id="cancel" name="cancel" value="{{appointment.id}}">CANCEL</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="6">You have no pending appointment</td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block page_style %}
+
+<style>
+    table,
+    td,
+    th {
+        border: 1px solid black;
+    }
+
+    td,
+    th {
+        padding: 10px 20px;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+
+    td {
+        text-align: center;
+    }
+
+    #cancel {
+        background-color: indianred;
+        color: white;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+</style>
+
+{% endblock %}
