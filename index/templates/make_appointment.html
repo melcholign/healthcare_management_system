@@ -1,0 +1,126 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<table>
+    <colgroup>
+        <col>
+        <col>
+        <col>
+        <col>
+    </colgroup>
+    <thead>
+        {% if schedule_error %}
+        <tr>
+            <td colspan="5" class="schedule-error">
+                <h2>Scheduling Conflicts Encountered</h2>
+                <p>
+                    Your <strong>CHOSEN</strong> appointment schedule:
+                    <ul class="chosen">
+                        <li>
+                            {{schedule_error.chosen_schedule.start_time}} -
+                            {{schedule_error.chosen_schedule.end_time}} on
+                            {{schedule_error.chosen_schedule.date}} with
+                            Dr. {{schedule_error.chosen_schedule.doctor_name}} ({{schedule_error.chosen_schedule.specialty}})
+                        </li>
+                    </ul>
+                    conflicts with your <strong>EXISTING</strong> appointment schedules:
+                <ul class="conflicts">
+                    {% for conflicting_schedule in schedule_error.conflicting_schedule_list %}
+                    <li>
+                        {{conflicting_schedule.start_time}} -
+                        {{conflicting_schedule.end_time}} on
+                        {{conflicting_schedule.date}} with
+                        Dr. {{conflicting_schedule.doctor_name}}
+                        ({{conflicting_schedule.specialty}})
+                    </li>
+                    {% endfor %}
+                </ul>
+                </p>
+            </td>
+        </tr>
+        {% endif %}
+        <tr>
+            <th>Name</th>
+            <th>Specialty</th>
+            <th>Workplace</th>
+            <th>Schedules</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for schedule_list in doctor_schedule_list %}
+        {% if schedule_list.schedules %}
+        <form action="{% url 'make_appointment' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="doctor_name"
+                value="{{schedule_list.doctor.first_name}} {{schedule_list.doctor.last_name}}">
+            <input type="hidden" name="specialty" value="{{schedule_list.doctor.specialty}}">
+            <tr>
+                <td>
+                    Dr. {{schedule_list.doctor.first_name}} {{schedule_list.doctor.last_name}}
+                </td>
+                <td>
+                    {{schedule_list.doctor.specialty}}
+                </td>
+                <td>{{schedule_list.doctor.workplace}}</td>
+                <td>
+                    <select name="schedule" id="schedule" required>
+                        <option value="" disabled selected>Select a schedule</option>
+                        {% for schedule in schedule_list.schedules %}
+                        <option value="{{schedule.schedule_id}}, {{schedule.date}}">{{schedule.date}}
+                            {{schedule.work_day}}, {{schedule.start_time}} -
+                            {{schedule.end_time}}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <button>Choose</button>
+                </td>
+            </tr>
+        </form>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block page_style %}
+
+<style>
+    table,
+    td,
+    th {
+        border: 1px solid black;
+    }
+
+    td,
+    th {
+        padding: 10px 20px;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+
+    td:not(.schedule-error) {
+        text-align: center;
+    }
+
+    select {
+        width: 100%;
+        font-size: 1rem
+    }
+
+    .schedule-error h2, .conflicts li {
+        color: red;
+        font-weight: bold;
+    }
+
+    .chosen li {
+        color: darkblue;
+        font-weight: bold;
+    }
+</style>
+
+{% endblock %}
