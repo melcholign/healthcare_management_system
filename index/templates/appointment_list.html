@@ -34,7 +34,11 @@
             <td>
                 <form action="{% url 'appointment_list' %}" method="post">
                     {% csrf_token %}
-                    <button id="cancel" name="cancel" value="{{a.id}}">CANCEL</button>
+                    {% if a.status == 'p' %}
+                    <button id="cancel" name="cancel" value="{{a.id}}">Cancel</button>
+                    {% else %}
+                    <button id="reschedule" name="reschedule" value="{{a.id}}">Reschedule</button>
+                    {% endif %}
                 </form>
             </td>
         </tr>
@@ -70,11 +74,19 @@
         text-align: center;
     }
 
-    #cancel {
-        background-color: indianred;
+    #cancel,
+    #reschedule {
         color: white;
         font-weight: bold;
         font-size: 1.2rem;
+    }
+
+    #cancel {
+        background-color: indianred;
+    }
+
+    #reschedule {
+        background-color: darkgreen;
     }
 
     .status-p,
@@ -94,7 +106,6 @@
     .status-m {
         color: red;
     }
-
 </style>
 
 {% endblock %}

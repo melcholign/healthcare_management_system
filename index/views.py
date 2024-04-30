@@ -18,8 +18,26 @@ def appointment_list(request):
     patient_id = get_account_id(account_data['account_id'], account_data['account_type'])
     
     if request.method == 'POST':
+        post_data = request.POST
         with connection.cursor() as cursor:
-            cursor.execute(f'DELETE FROM index_appointment WHERE id={request.POST["cancel"]}')
+            if 'reschedule' in post_data:
+                appointment_id = post_data['reschedule']
+                cursor.execute(f'''
+                               SELECT work_day from accounts_availability AS ava
+                               JOIN index_appointment AS app ON doctor_schedule_id = ava.id
+                               WHERE app.id = {appointment_id}
+                               ''')
+                date = next_weekday_date(cursor.fetchall()[0][0])
+                cursor.execute(f'''
+                               INSERT INTO index_appointment (doctor_schedule_id, patient_id, date, status)
+                               SELECT doctor_schedule_id, patient_id, "{date}", "p"
+                               FROM index_appointment
+                               WHERE id = {appointment_id}   
+                               ''')
+            else:
+                appointment_id = post_data['cancel']
+
+            cursor.execute(f'DELETE FROM index_appointment WHERE id={appointment_id}')
             
     __update_appointments(patient_id)
     context['appointment_list'] = __fetch_appointment_list(patient_id)
