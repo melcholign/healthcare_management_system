@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from datetime import datetime
+from datetime import datetime, date
 from django.db import connection
 from util import dictfetchall, next_weekday_date, get_account_id
 
@@ -24,7 +24,6 @@ def appointment_list(request):
     context['appointment_list'] = __fetch_appointment_list(patient_id)
     
     return render(request, 'appointment_list.html', context)
-
 
 def make_appointment(request):
     """
@@ -85,8 +84,8 @@ def make_appointment(request):
                 })
                 
             else:
-                cursor.execute(f'''INSERT INTO index_appointment(doctor_schedule_id, patient_id, date, visited_time) 
-                               VALUES ({schedule_id}, {patient_id}, "{date}", {False})''')
+                cursor.execute(f'''INSERT INTO index_appointment(doctor_schedule_id, patient_id, date, status) 
+                               VALUES ({schedule_id}, {patient_id}, "{date}", "p")''')
                 return render(request, 'index.html')
                 
    
@@ -98,7 +97,7 @@ def __fetch_appointment_list(patient_id):
     with connection.cursor() as cursor:
         cursor.execute(f'''
                        SELECT app.id AS id, date, start_time, end_time, CONCAT(first_name, " ", last_name) AS doctor_name,
-                       specialty, inst.name AS workplace, visited
+                       specialty, inst.name AS workplace, status
                        FROM index_appointment AS app
                        JOIN accounts_availability AS ava ON doctor_schedule_id=ava.id
                        JOIN accounts_doctor AS doc ON doctor_id=doc.id
@@ -107,7 +106,6 @@ def __fetch_appointment_list(patient_id):
                        WHERE patient_id={patient_id}
                        ORDER BY date, start_time
                        ''')
-        
         return dictfetchall(cursor)
 
 def __fetch_doctor_schedule_list(patient_id):
@@ -134,7 +132,7 @@ def __fetch_doctor_schedule_list(patient_id):
                 EXCEPT
                 (SELECT ava.id AS schedule_id, work_day, start_time, end_time 
                 FROM accounts_availability as ava JOIN index_appointment ON doctor_schedule_id=ava.id
-                WHERE patient_id={patient_id})
+                WHERE patient_id={patient_id} AND status='p')
             ''')
             
             doctor_schedule_list += [{

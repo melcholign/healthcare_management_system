@@ -5,11 +5,18 @@ from accounts.models import *
 # Create your models here.
 
 class Appointment(models.Model):
+    STATUS = (
+        ('p', 'pending'),
+        ('v', 'visited'),
+        ('c', 'canceled'),
+        ('m', 'missed'),
+    )
+    
     doctor_schedule = models.ForeignKey(Availability, on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     date = models.DateField()
     visited_time = models.TimeField(null=True, blank=True)
-    visited = models.BooleanField(default=False)
+    status = models.CharField(max_length=1, choices=STATUS, default='p')
 
     def __str__(self):
         return (str(self.doctor_schedule.doctor) + " - " + str(self.patient) + " - " + str(self.date) 
