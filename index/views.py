@@ -21,9 +21,11 @@ def appointment_list(request):
         with connection.cursor() as cursor:
             cursor.execute(f'DELETE FROM index_appointment WHERE id={request.POST["cancel"]}')
             
+    __update_appointments(patient_id)
     context['appointment_list'] = __fetch_appointment_list(patient_id)
     
     return render(request, 'appointment_list.html', context)
+
 
 def make_appointment(request):
     """
@@ -107,6 +109,23 @@ def __fetch_appointment_list(patient_id):
                        ORDER BY date, start_time
                        ''')
         return dictfetchall(cursor)
+    
+def __update_appointments(patient_id):
+    """
+    Update the status of a pending appointment to 'm' for 'missed'
+    if its date or time has been passed
+    """
+    with connection.cursor() as cursor:
+        cursor.execute(f'''
+                    UPDATE index_appointment
+                    SET status = "m"
+                    WHERE patient_id = {patient_id}
+                    AND (date < CURDATE() OR (date = CURDATE() AND id in (
+                        SELECT id FROM accounts_availability
+                        WHERE id = doctor_schedule_id
+                        AND end_time < CURTIME()
+                    )))
+                    ''')
 
 def __fetch_doctor_schedule_list(patient_id):
     """
