@@ -10,23 +10,33 @@
         <th>Doctor Name</th>
         <th>Specialty</th>
         <th>Workplace</th>
-        <th>Visited</th>
+        <th>Status</th>
         <th></th>
     </thead>
     <tbody>
         {% if appointment_list %}
-        {% for appointment in appointment_list %}
+        {% for a in appointment_list %}
         <tr>
-            <td>{{appointment.date}}</td>
-            <td>{{appointment.start_time}} - {{appointment.end_time}}</td>
-            <td>{{appointment.doctor_name}}</td>
-            <td>{{appointment.specialty}}</td>
-            <td>{{appointment.workplace}}</td>
-            <td>{% if appointment.visited %} YES {% else %} NO {% endif %}</td>
+            <td>{{a.date}}</td>
+            <td>{{a.start_time}} - {{a.end_time}}</td>
+            <td>{{a.doctor_name}}</td>
+            <td>{{a.specialty}}</td>
+            <td>{{a.workplace}}</td>
+            <td class="status-{{a.status}}">
+                {% if a.status == 'v' %}
+                Visited
+                {% elif a.status == 'm' %}
+                Missed
+                {% elif a.status == 'c' %}
+                Canceled
+                {% else %}
+                Pending
+                {% endif %}
+            </td>
             <td>
                 <form action="{% url 'appointment_list' %}" method="post">
                     {% csrf_token %}
-                    <button id="cancel" name="cancel" value="{{appointment.id}}">CANCEL</button>
+                    <button id="cancel" name="cancel" value="{{a.id}}">CANCEL</button>
                 </form>
             </td>
         </tr>
@@ -67,6 +77,29 @@
         color: white;
         font-weight: bold;
         font-size: 1.2rem;
+    }
+
+    .status-p,
+    .status-v,
+    .status-m,
+    .status-c {
+        font-weight: bold;
+    }
+
+    .status-p {
+        color: darkorange;
+    }
+
+    .status-v {
+        color: limegreen;
+    }
+
+    .status-m {
+        color: red;
+    }
+
+    .status-c {
+        color: firebrick;
     }
 </style>
 
