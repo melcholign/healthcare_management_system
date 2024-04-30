@@ -8,7 +8,6 @@ class Appointment(models.Model):
     STATUS = (
         ('p', 'pending'),
         ('v', 'visited'),
-        ('c', 'canceled'),
         ('m', 'missed'),
     )
     

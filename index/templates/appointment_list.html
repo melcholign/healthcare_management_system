@@ -27,8 +27,6 @@
                 Visited
                 {% elif a.status == 'm' %}
                 Missed
-                {% elif a.status == 'c' %}
-                Canceled
                 {% else %}
                 Pending
                 {% endif %}
@@ -81,8 +79,7 @@
 
     .status-p,
     .status-v,
-    .status-m,
-    .status-c {
+    .status-m {
         font-weight: bold;
     }
 
@@ -98,9 +95,6 @@
         color: red;
     }
 
-    .status-c {
-        color: firebrick;
-    }
 </style>
 
 {% endblock %}
