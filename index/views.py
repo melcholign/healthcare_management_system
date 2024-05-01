@@ -7,6 +7,55 @@ from util import dictfetchall, next_weekday_date, get_account_id
 def home(request):
     return render(request, 'index.html')
 
+def doctor_appointment_list(request):
+    pass
+
+def __fetch_doctor_appointments(doctor_id):
+    """
+    Fetch a list of appointments corresponding to particular date
+    sorted by date and time 
+    """
+    appointment_list = []
+    with connection.cursor() as cursor:
+        cursor.execute(f'''
+                       SELECT date, start_time, end_time, app.id AS appointment_id, first_name, last_name
+                       FROM index_appointment AS app
+                       JOIN accounts_availability AS ava ON app.doctor_schedule_id = ava.id
+                       JOIN accounts_patient AS acc ON app.patient_id = acc.id
+                       JOIN auth_user AS user ON acc.user_id = user.id
+                       WHERE doctor_id = {doctor_id} AND (date > CURDATE()
+                       OR (date = CURDATE() AND start_time > CURTIME()))
+                       ORDER BY date, start_time  
+                       ''')
+        appointments = dictfetchall(cursor)
+        
+        for appointment in appointments:
+            # if the list is empty or the date on the last entry is not equal to that on appointment,
+            # add a new entry with the appointment date
+            if len(appointment_list) == 0 or appointment_list[-1]['date'] != appointment['date']:
+                appointment_list += [{'date': appointment['date']}]
+            
+            recent = appointment_list[-1]
+            
+            if 'time' not in recent:
+                recent['time'] = []
+            
+            if len(recent['time']) == 0 or recent['time'][-1]['start_time'] != appointment['start_time']:
+                recent['time'] += [{
+                    'start_time': appointment['start_time'],
+                    'end_time': appointment['end_time'],
+                    'patients': [],
+                    }]
+            
+            recent['time'][-1]['patients'] += [{
+                'first_name': appointment['first_name'],
+                'last_name': appointment['last_name'],
+            }]
+            
+            appointment[-1] = recent
+            
+    return appointment_list
+
 def appointment_list(request):
     """ 
     Generates a list of appointments made by a patient
