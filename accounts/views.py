@@ -116,7 +116,7 @@ def account_login(request):
             
     return render(request, 'account_login.html', context)
 
-def account_logout(request):
+def user_logout(request):
     try:
         del request.session['account_data']
     except KeyError:

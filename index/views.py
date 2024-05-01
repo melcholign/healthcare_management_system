@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from datetime import datetime, date
 from django.db import connection
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from datetime import datetime
 from util import dictfetchall, next_weekday_date, get_account_id
 
 # Create your views here.
@@ -10,10 +12,30 @@ def home(request):
 def doctor_appointment_list(request):
     context = {}
     
-    context['doctor_id'] = 2
-    context['appointment_list'] = __fetch_doctor_appointment_list(2)
+    doctor_id = 2
     
-    return render(request, 'doctor_appointment_list.html', context=context)
+    if request.method == 'POST':
+        post_data = request.POST
+        
+        date = post_data['date']
+        start_time = post_data['start_time']
+    
+        print(date)
+        print(start_time)
+        
+        with connection.cursor() as cursor:
+            cursor.execute(f'''DELETE FROM index_appointment
+                           WHERE date = "{date}" AND doctor_schedule_id in (
+                               SELECT id FROM accounts_availability
+                               WHERE doctor_id = {doctor_id} AND start_time = "{start_time}"
+                           )
+                           ''')
+        
+        return HttpResponseRedirect(reverse('doctor_appointment_list'))
+    
+    context['appointment_list'] = __fetch_doctor_appointment_list(doctor_id)
+    
+    return render(request, 'doctor_appointment_list.html', context)
 
 def patient_appointment_list(request):
     """ 
@@ -136,7 +158,7 @@ def __fetch_doctor_appointment_list(doctor_id):
                        JOIN auth_user AS user ON acc.user_id = user.id
                        WHERE doctor_id = {doctor_id} AND (date > CURDATE()
                        OR (date = CURDATE() AND start_time > CURTIME()))
-                       ORDER BY date, start_time  
+                       ORDER BY date, start_time, appointment_id
                        ''')
         appointments = dictfetchall(cursor)
         
@@ -153,7 +175,7 @@ def __fetch_doctor_appointment_list(doctor_id):
             
             if 'time_slot' not in recent:
                 recent['time_slot'] = []
-            
+                        
             if len(recent['time_slot']) == 0 or recent['time_slot'][-1]['start_time'] != appointment['start_time']:
                 recent['time_slot'] += [{
                     'start_time': appointment['start_time'],

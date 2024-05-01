@@ -28,31 +28,29 @@
                     <td rowspan="{{date_group.time_slot.0.appointments|length}}">
                         <form action="" method="post">
                             {% csrf_token %}
-                            <input type="hidden" name="date" value="{{date_group.date}}">
-                            <input type="hidden" name="start_time" value="{{date_group.time_slot.0.start_time}}">
-                            <input type="hidden" name="doctor_id" value="{{doctor_id}}">
+                            <input type="hidden" name="date" value="{{date_group.date|date:'Y-m-d'}}">
+                            <input type="hidden" name="start_time" value="{{date_group.time_slot.0.start_time|date:'H:i:s'}}">
                             <button class="cancel">Cancel</button>
                         </form>
                     </td>
                 </tr>
                 {% for t in date_group.time_slot %}
-                    {% if t != date_group.time_slot.0 %}
+                    {% if t is not date_group.time_slot.0 %}
                         <tr>
                             <td rowspan="{{t.appointments|length}}">{{t.start_time}} - {{t.end_time}}</td>
                             <td>{{t.appointments.0.first_name}} {{t.appointments.0.last_name}}</td>
                             <td rowspan="{{t.appointments|length}}">
                                 <form action="" method="post">
                                 {% csrf_token %}
-                                <input type="hidden" name="date" value="{{date_group.date}}">
-                                <input type="hidden" name="start_time" value="{{t.start_time}}">
-                                <input type="hidden" name="doctor_id" value="{{doctor_id}}">
+                                <input type="hidden" name="date" value="{{date_group.date|date:'Y-m-d'}}">
+                                <input type="hidden" name="start_time" value="{{t.start_time|date:'H:i:s'}}">
                                     <button class="cancel">Cancel</button>
                                 </form>
                             </td>
                         </tr>
                     {% endif %}
                     {% for a in t.appointments %}
-                        {% if a != t.appointments.0 %}
+                        {% if a is not t.appointments.0 %}
                             <tr>
                                 <td>{{a.first_name}} {{a.last_name}}</td>
                             </tr>
@@ -61,6 +59,10 @@
                 {% endfor %}
             </tbody>
         {% endfor %}
+        {% else %}
+        <tbody>
+            <tr><td colspan="4">There are no pending appointments.</td></tr>
+        </tbody>
         {% endif %}
 </table>
 {% endblock %}
