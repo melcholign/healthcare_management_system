@@ -8,7 +8,12 @@ def home(request):
     return render(request, 'index.html')
 
 def doctor_appointment_list(request):
-    pass
+    context = {}
+    
+    context['doctor_id'] = 2
+    context['appointment_list'] = __fetch_doctor_appointments(2)
+    
+    return render(request, 'doctor_appointment_list.html', context=context)
 
 def __fetch_doctor_appointments(doctor_id):
     """
@@ -33,26 +38,33 @@ def __fetch_doctor_appointments(doctor_id):
             # if the list is empty or the date on the last entry is not equal to that on appointment,
             # add a new entry with the appointment date
             if len(appointment_list) == 0 or appointment_list[-1]['date'] != appointment['date']:
-                appointment_list += [{'date': appointment['date']}]
+                appointment_list += [{
+                    'total': 0,
+                    'date': appointment['date']
+                    }]
             
             recent = appointment_list[-1]
             
-            if 'time' not in recent:
-                recent['time'] = []
+            if 'time_slot' not in recent:
+                recent['time_slot'] = []
             
-            if len(recent['time']) == 0 or recent['time'][-1]['start_time'] != appointment['start_time']:
-                recent['time'] += [{
+            if len(recent['time_slot']) == 0 or recent['time_slot'][-1]['start_time'] != appointment['start_time']:
+                recent['time_slot'] += [{
                     'start_time': appointment['start_time'],
                     'end_time': appointment['end_time'],
-                    'patients': [],
+                    'appointments': [],
                     }]
             
-            recent['time'][-1]['patients'] += [{
+            recent['time_slot'][-1]['appointments'] += [{
+                'appointment_id': appointment['appointment_id'],
                 'first_name': appointment['first_name'],
                 'last_name': appointment['last_name'],
             }]
             
-            appointment[-1] = recent
+            recent['total'] += 1
+            appointment_list[-1] = recent
+                
+    print(appointment_list)
             
     return appointment_list
 

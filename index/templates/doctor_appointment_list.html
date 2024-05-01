@@ -1,0 +1,100 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Appointment List{% endblock %}
+
+{% block content %}
+<table>
+    <colgroup>
+        <col>
+        <col>
+        <col>
+        <col>
+    </colgroup>
+    <thead>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Patient</th>
+        <th>Action</th>
+    </thead>
+        {% if appointment_list %}
+        {% for date_group in appointment_list %}
+            <tbody>
+                <tr>
+                    <td rowspan="{{date_group.total}}">{{date_group.date}}</td>
+                    <td rowspan="{{date_group.time_slot.0.appointments|length}}">
+                        {{date_group.time_slot.0.start_time}} - {{date_group.time_slot.0.end_time}}
+                    </td>
+                    <td>{{date_group.time_slot.0.appointments.0.first_name}} {{date_group.time_slot.0.appointments.0.last_name}}</td>
+                    <td rowspan="{{date_group.time_slot.0.appointments|length}}">
+                        <form action="" method="post">
+                            <input type="hidden" name="date" value="{{date_group.date}}">
+                            <input type="hidden" name="start_time" value="{{date_group.time_slot.0.start_time}}">
+                            <input type="hidden" name="doctor_id" value="{{doctor_id}}">
+                            <button class="cancel">Cancel</button>
+                        </form>
+                    </td>
+                </tr>
+                {% for t in date_group.time_slot %}
+                    {% if t != date_group.time_slot.0 %}
+                        <tr>
+                            <td rowspan="{{t.appointments|length}}">{{t.start_time}} - {{t.end_time}}</td>
+                            <td>{{t.appointments.0.first_name}} {{t.appointments.0.last_name}}</td>
+                            <td rowspan="{{t.appointments|length}}">
+                                <form action="" method="post">
+                                <input type="hidden" name="date" value="{{date_group.date}}">
+                                <input type="hidden" name="start_time" value="{{t.start_time}}">
+                                <input type="hidden" name="doctor_id" value="{{doctor_id}}">
+                                    <button class="cancel">Cancel</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% for a in t.appointments %}
+                        {% if a != t.appointments.0 %}
+                            <tr>
+                                <td>{{a.first_name}} {{a.last_name}}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        {% endfor %}
+        {% endif %}
+</table>
+{% endblock %}
+
+{% block page_style %}
+
+<style>
+    table,
+    td,
+    th {
+        border: 1px solid black;
+    }
+
+    td,
+    th {
+        padding: 10px 20px;
+    }
+
+    table {
+        border-collapse: collapse;
+    }
+
+    td {
+        text-align: center;
+    }
+
+    tbody, col {
+        border: 3px solid black;
+    }
+
+    .cancel {
+        color: white;
+        font-weight: bold;
+        font-size: 1.2rem;
+        background-color: indianred;
+    }
+</style>
+
+{% endblock %}
