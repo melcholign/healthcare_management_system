@@ -32,12 +32,12 @@
                 {% endif %}
             </td>
             <td>
-                <form action="{% url 'appointment_list' %}" method="post">
+                <form action="{% url 'patient_appointment_list' %}" method="post">
                     {% csrf_token %}
                     {% if a.status == 'p' %}
-                    <button id="cancel" name="cancel" value="{{a.id}}">Cancel</button>
+                    <button class="cancel" name="cancel" value="{{a.id}}">Cancel</button>
                     {% else %}
-                    <button id="reschedule" name="reschedule" value="{{a.id}}">Reschedule</button>
+                    <button class="reschedule" name="reschedule" value="{{a.id}}">Reschedule</button>
                     {% endif %}
                 </form>
             </td>
@@ -74,18 +74,18 @@
         text-align: center;
     }
 
-    #cancel,
-    #reschedule {
+    .cancel,
+    .reschedule {
         color: white;
         font-weight: bold;
         font-size: 1.2rem;
     }
 
-    #cancel {
+    .cancel {
         background-color: indianred;
     }
 
-    #reschedule {
+    .reschedule {
         background-color: darkgreen;
     }
 

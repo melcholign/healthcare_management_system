@@ -27,6 +27,7 @@
                     <td>{{date_group.time_slot.0.appointments.0.first_name}} {{date_group.time_slot.0.appointments.0.last_name}}</td>
                     <td rowspan="{{date_group.time_slot.0.appointments|length}}">
                         <form action="" method="post">
+                            {% csrf_token %}
                             <input type="hidden" name="date" value="{{date_group.date}}">
                             <input type="hidden" name="start_time" value="{{date_group.time_slot.0.start_time}}">
                             <input type="hidden" name="doctor_id" value="{{doctor_id}}">
@@ -41,6 +42,7 @@
                             <td>{{t.appointments.0.first_name}} {{t.appointments.0.last_name}}</td>
                             <td rowspan="{{t.appointments|length}}">
                                 <form action="" method="post">
+                                {% csrf_token %}
                                 <input type="hidden" name="date" value="{{date_group.date}}">
                                 <input type="hidden" name="start_time" value="{{t.start_time}}">
                                 <input type="hidden" name="doctor_id" value="{{doctor_id}}">

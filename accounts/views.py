@@ -84,7 +84,7 @@ def registerPatient(request):
     return render(request, 'registerPatient.html')
 
 
-def login(request):
+def account_login(request):
     session_data = request.session
     
     if 'account_data' in session_data:    
@@ -114,19 +114,19 @@ def login(request):
         else:
             context['error_message'] = 'Invalid email or password'
             
-    return render(request, 'login.html', context)
+    return render(request, 'account_login.html', context)
 
-def logout(request):
+def account_logout(request):
     try:
         del request.session['account_data']
     except KeyError:
         pass
     
-    return HttpResponseRedirect(reverse('login'))
+    return HttpResponseRedirect(reverse('account_login'))
 
 def get_account_page(request):
     if 'account_data' not in request.session:
-        HttpResponseRedirect(reverse('login'))
+        HttpResponseRedirect(reverse('account_login'))
         
     template_name = 'doctor_dashboard.html' if request.session['account_data']['account_type'] == 'doctor' else 'patient_portal.html'
     return render(request, template_name)

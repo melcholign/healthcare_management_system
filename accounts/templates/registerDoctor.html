@@ -4,7 +4,7 @@
 
 {% block nav_list %}
 <li><a href="{% url 'registerPatient' %}">Patient Registration</a></li>
-<li><a href="{% url 'login' %}">Login</a></li> 
+<li><a href="{% url 'account_login' %}">Login</a></li> 
 {% endblock %}
 
 {% block form_action %} {% url 'registerDoctor' %} {% endblock %}

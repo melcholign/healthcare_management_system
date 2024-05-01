@@ -11,64 +11,11 @@ def doctor_appointment_list(request):
     context = {}
     
     context['doctor_id'] = 2
-    context['appointment_list'] = __fetch_doctor_appointments(2)
+    context['appointment_list'] = __fetch_doctor_appointment_list(2)
     
     return render(request, 'doctor_appointment_list.html', context=context)
 
-def __fetch_doctor_appointments(doctor_id):
-    """
-    Fetch a list of appointments corresponding to particular date
-    sorted by date and time 
-    """
-    appointment_list = []
-    with connection.cursor() as cursor:
-        cursor.execute(f'''
-                       SELECT date, start_time, end_time, app.id AS appointment_id, first_name, last_name
-                       FROM index_appointment AS app
-                       JOIN accounts_availability AS ava ON app.doctor_schedule_id = ava.id
-                       JOIN accounts_patient AS acc ON app.patient_id = acc.id
-                       JOIN auth_user AS user ON acc.user_id = user.id
-                       WHERE doctor_id = {doctor_id} AND (date > CURDATE()
-                       OR (date = CURDATE() AND start_time > CURTIME()))
-                       ORDER BY date, start_time  
-                       ''')
-        appointments = dictfetchall(cursor)
-        
-        for appointment in appointments:
-            # if the list is empty or the date on the last entry is not equal to that on appointment,
-            # add a new entry with the appointment date
-            if len(appointment_list) == 0 or appointment_list[-1]['date'] != appointment['date']:
-                appointment_list += [{
-                    'total': 0,
-                    'date': appointment['date']
-                    }]
-            
-            recent = appointment_list[-1]
-            
-            if 'time_slot' not in recent:
-                recent['time_slot'] = []
-            
-            if len(recent['time_slot']) == 0 or recent['time_slot'][-1]['start_time'] != appointment['start_time']:
-                recent['time_slot'] += [{
-                    'start_time': appointment['start_time'],
-                    'end_time': appointment['end_time'],
-                    'appointments': [],
-                    }]
-            
-            recent['time_slot'][-1]['appointments'] += [{
-                'appointment_id': appointment['appointment_id'],
-                'first_name': appointment['first_name'],
-                'last_name': appointment['last_name'],
-            }]
-            
-            recent['total'] += 1
-            appointment_list[-1] = recent
-                
-    print(appointment_list)
-            
-    return appointment_list
-
-def appointment_list(request):
+def patient_appointment_list(request):
     """ 
     Generates a list of appointments made by a patient
     """
@@ -101,9 +48,9 @@ def appointment_list(request):
             cursor.execute(f'DELETE FROM index_appointment WHERE id={appointment_id}')
             
     __update_appointments(patient_id)
-    context['appointment_list'] = __fetch_appointment_list(patient_id)
+    context['appointment_list'] = __fetch_patient_appointment_list(patient_id)
     
-    return render(request, 'appointment_list.html', context)
+    return render(request, 'patient_appointment_list.html', context)
 
 
 def make_appointment(request):
@@ -174,7 +121,58 @@ def make_appointment(request):
 
     return render(request, 'make_appointment.html', context)
 
-def __fetch_appointment_list(patient_id):
+def __fetch_doctor_appointment_list(doctor_id):
+    """
+    Fetch a list of appointments corresponding to particular date
+    sorted by date and time 
+    """
+    appointment_list = []
+    with connection.cursor() as cursor:
+        cursor.execute(f'''
+                       SELECT date, start_time, end_time, app.id AS appointment_id, first_name, last_name
+                       FROM index_appointment AS app
+                       JOIN accounts_availability AS ava ON app.doctor_schedule_id = ava.id
+                       JOIN accounts_patient AS acc ON app.patient_id = acc.id
+                       JOIN auth_user AS user ON acc.user_id = user.id
+                       WHERE doctor_id = {doctor_id} AND (date > CURDATE()
+                       OR (date = CURDATE() AND start_time > CURTIME()))
+                       ORDER BY date, start_time  
+                       ''')
+        appointments = dictfetchall(cursor)
+        
+        for appointment in appointments:
+            # if the list is empty or the date on the last entry is not equal to that on appointment,
+            # add a new entry with the appointment date
+            if len(appointment_list) == 0 or appointment_list[-1]['date'] != appointment['date']:
+                appointment_list += [{
+                    'total': 0,
+                    'date': appointment['date']
+                    }]
+            
+            recent = appointment_list[-1]
+            
+            if 'time_slot' not in recent:
+                recent['time_slot'] = []
+            
+            if len(recent['time_slot']) == 0 or recent['time_slot'][-1]['start_time'] != appointment['start_time']:
+                recent['time_slot'] += [{
+                    'start_time': appointment['start_time'],
+                    'end_time': appointment['end_time'],
+                    'appointments': [],
+                    }]
+            
+            recent['time_slot'][-1]['appointments'] += [{
+                'appointment_id': appointment['appointment_id'],
+                'first_name': appointment['first_name'],
+                'last_name': appointment['last_name'],
+            }]
+            
+            recent['total'] += 1
+            appointment_list[-1] = recent
+                        
+    return appointment_list
+
+def __fetch_patient_appointment_list(patient_id):
     with connection.cursor() as cursor:
         cursor.execute(f'''
                        SELECT app.id AS id, date, start_time, end_time, CONCAT(first_name, " ", last_name) AS doctor_name,
