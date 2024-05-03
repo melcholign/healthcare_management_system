@@ -3,7 +3,7 @@ from django.db import connection
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from datetime import date
-from util import dictfetchall
+from util.functions import dictfetchall
 
 def registerDoctor(request):
     cursor = connection.cursor()
@@ -116,7 +116,7 @@ def account_login(request):
             
     return render(request, 'account_login.html', context)
 
-def user_logout(request):
+def account_logout(request):
     try:
         del request.session['account_data']
     except KeyError:

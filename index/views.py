@@ -3,12 +3,14 @@ from django.db import connection
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from datetime import datetime
-from util import dictfetchall, next_weekday_date, get_account_id
+from util.decorators import account_permission
+from util.functions import dictfetchall, next_weekday_date, get_account_id
 
 # Create your views here.
 def home(request):
     return render(request, 'index.html')
 
+@account_permission('doctor')
 def doctor_appointment_list(request):
     context = {}
     
@@ -37,6 +39,7 @@ def doctor_appointment_list(request):
     
     return render(request, 'doctor_appointment_list.html', context)
 
+@account_permission('patient')
 def patient_appointment_list(request):
     """ 
     Generates a list of appointments made by a patient
@@ -75,6 +78,7 @@ def patient_appointment_list(request):
     return render(request, 'patient_appointment_list.html', context)
 
 
+@account_permission('patient')
 def make_appointment(request):
     """
     Provides the mechanisms by which valid appointments can be made
