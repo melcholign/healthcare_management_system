@@ -1,73 +1,53 @@
-{% extends "base_accounts.html" %}
 
-{% block title %} Doctor Registration Page {% endblock %}
+{% extends 'base_generic.html' %}
+{% block body %}
+    <div class="container my-4 py-1">
+        
+        
+        <form action="/accounts/registerDoctor" method="post" style="max-width: 400px; margin: 0 auto;" class="form px-3 my-5 shadow">
+            <h4 class="text-center mt-5 pt-3">Register Doctor</h4>
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" class="form-control" id="name" name="first_name" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="lastname" name="last_name" placeholder="Name">
+            </div>
 
-{% block nav_list %}
-<li><a href="{% url 'registerPatient' %}">Patient Registration</a></li>
-<li><a href="{% url 'account_login' %}">Login</a></li> 
-{% endblock %}
+            <div class="form-group">
+                <input type="text" class="form-control" id="speciality" name="specialty" placeholder="Speciality">
+            </div>
 
-{% block form_action %} {% url 'registerDoctor' %} {% endblock %}
 
-{% block form_heading %} Doctor Registration {% endblock %}
+            <div class="form-group">
+                <input type="text" class="form-control" id="department" name="department" placeholder="Department">
+            </div>
 
-{% block form_fields %}
-{% if error_message %}
-<p class="error-message">
-    {{error_message}}
-</p>
-{% endif %}
-<p>
-    <label for="first-name">First Name:</label>
-    <input type="text" id="first-name" name="first_name" required>
-</p>
-<p>
-    <label for="last-name">Last Name:</label>
-    <input type="text" id="last-name" name="last_name" required>
-</p>
-<p>
-    <label for="specialty">Specialty:</label>
-    <input type="text" id="speciality" name="specialty" required>
-</p>
-<p>
-    <label for="department">Department:</label>
-    <input type="text" id="department" name="department" required>
-</p>
-<p>
-    <label for="qualification">Qualification:</label>
-    <input type="text" id="qualification" name="qualification" required>
-</p>
-<p>
-    <label for="workplace">Workplace</label>
-    <select name="workplace" id="workplace" required>
-        <option value="" disabled selected>Select your workplace</option>
-        {% for place in workplaces %}
-        <option value="{{place.1}}">{{place.0}}</option>
-        {% endfor %}
-    </select>
-</p>
-<p>
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
-</p>
-<p>
-    <label for="contact">Contact:</label>
-    <input type="tel" id="contact" name="contact" maxlength="10" required>
-</p>
-<p>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" minlength="8" maxlength="32" required>
-</p>
-<p>
-    <label for="confirm-password">Confirm Password:</label>
-    <input type="password" id="confirm-password" name="confirm_password" required>
-</p>
-{% endblock %}
+            <div class="form-group">
+                <textarea class="form-control" id="qualification" name="qualification" placeholder="Qualification"></textarea>
+            </div>
 
-{% block submit_txt %}Register{% endblock %}
+            <div class="form-group">
+                <select name="workplace" id="workplace" required class="form-control">
+                    <option value="" disabled selected>Select your workplace</option>
+                    {% for place in workplaces %}
+                    <option value="{{place.1}}">{{place.0}}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-{% block field_style %}
-<style>
-    
-</style>
+            <div class="form-group">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+            </div>
+
+            <div class="form-group">
+                <input type="number" class="form-control" id="contact" name="contact" placeholder="Contact">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            </div>
+            
+            <input type="submit" class="btn btn-primary mb-3" value="Submit">
+        </form>
+    </div>
 {% endblock %}

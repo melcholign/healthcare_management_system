@@ -57,15 +57,15 @@ class Availability(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['doctor', 'work_day', 'start_time', 'end_time'],
-                                    violation_error_message='A doctor must be available at any unique time and day',
-                                    name='unique_availability'),
-            models.CheckConstraint(check=Q(start_time__lt=F('end_time')),
-                                   violation_error_message='Start time of availability must be less than its end time',
-                                   name='check_availability_time'),
-        ]
+    # class Meta:
+    #     constraints = [
+    #         models.UniqueConstraint(fields=['doctor', 'work_day', 'start_time', 'end_time'],
+    #                                 violation_error_message='A doctor must be available at any unique time and day',
+    #                                 name='unique_availability'),
+    #         models.CheckConstraint(check=Q(start_time__lt=F('end_time')),
+    #                                violation_error_message='Start time of availability must be less than its end time',
+    #                                name='check_availability_time'),
+    #     ]
         
     def __str__(self):
         return self.doctor.__str__() + " - " + str(self.start_time) + " - " + str(self.end_time) + " - " + self.work_day

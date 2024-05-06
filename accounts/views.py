@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.db import connection
 from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 from django.urls import reverse
 from datetime import date
 from util.functions import dictfetchall
@@ -44,6 +45,7 @@ def registerDoctor(request):
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
             """
             cursor.execute(doctorInsertQuery, [user_id, specialty, department, qualification, workplace, contact, False])
+            return redirect("/")
                     
     return render(request, 'registerDoctor.html', context=context)
 
