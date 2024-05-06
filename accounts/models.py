@@ -15,7 +15,7 @@ class Doctor(models.Model):
     available = models.BooleanField(default=True)   # whether or not a doctor is available to accept patients
 
     def __str__(self):
-        return "Dr. " + self.user.last_name + " - " + self.specialty
+        return "Dr. " + str(self.user.first_name) + " - " + self.specialty
 
 
 class Patient(models.Model):
@@ -30,7 +30,7 @@ class Patient(models.Model):
     contact = models.BigIntegerField()  # A ten digit number for mobile number
 
     def __str__(self):
-        return self.user.first_name + ' ' + self.user.last_name
+        return str(self.user.first_name)
     
 class Institution(models.Model):
     """Represents a medical/healthcare institution that employs doctors"""

@@ -6,6 +6,27 @@ from django.urls import reverse
 from datetime import date
 from util.functions import dictfetchall
 
+def isLoggedIn(request):
+    session_data = request.session
+    if 'account_data' in session_data:    
+        return True
+    else:
+        return False
+    
+def configureNavBar(request, context):
+    for key, value in request.session.items():
+        print(f"Key: {key}, Value: {value}")
+    if isLoggedIn(request):
+        with connection.cursor() as cursor:
+            cursor.execute(f'''select first_name, last_name from auth_user where id = {value['account_id']}
+                               ''')
+            row = cursor.fetchone()
+            context['firstName'] = row[0]
+            context['lastName'] = row[1] 
+            context['account_type'] = value['account_type']
+            context["isLoggedIn"] = isLoggedIn(request)
+
+
 def registerDoctor(request):
     cursor = connection.cursor()
     cursor.execute('SELECT name, address from accounts_institution')
@@ -14,6 +35,7 @@ def registerDoctor(request):
     context = {
         'workplaces': institutions,
     }
+    configureNavBar(request, context)
     
     if request.method == "POST":
         first_name = request.POST['first_name']
@@ -50,6 +72,8 @@ def registerDoctor(request):
     return render(request, 'registerDoctor.html', context=context)
 
 def registerPatient(request):
+    context = {}
+    configureNavBar(request, context)
     cursor = connection.cursor()
     if request.method == "POST":
         first_name = request.POST['first_name']
@@ -82,6 +106,7 @@ def registerPatient(request):
                 VALUES (%s, %s, %s, %s, %s)
             """
             cursor.execute(patientInsertQuery, [user_id, date_of_birth, sex, address, contact])
+            return redirect("/")
 
     return render(request, 'registerPatient.html')
 
@@ -90,9 +115,10 @@ def account_login(request):
     session_data = request.session
     
     if 'account_data' in session_data:    
-        return HttpResponseRedirect('account_page')
+        return redirect("/")
     
     context = {}
+    configureNavBar(request, context)
     
     if request.method == "POST":
         email = request.POST['email']
@@ -111,7 +137,7 @@ def account_login(request):
                 'account_type': __get_account_type(user['id']),
             }
             
-            return HttpResponseRedirect(reverse('account_page'))
+            return redirect("/")
 
         else:
             context['error_message'] = 'Invalid email or password'

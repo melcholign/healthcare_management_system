@@ -5,15 +5,31 @@ from django.urls import reverse
 from datetime import datetime
 from util.decorators import account_permission
 from util.functions import dictfetchall, next_weekday_date, get_account_id
+from accounts.views import isLoggedIn
 
 # Create your views here.
+def configureNavBar(request, context):
+    for key, value in request.session.items():
+        print(f"Key: {key}, Value: {value}")
+    if isLoggedIn(request):
+        with connection.cursor() as cursor:
+            cursor.execute(f'''select first_name, last_name from auth_user where id = {value['account_id']}
+                               ''')
+            row = cursor.fetchone()
+            context['firstName'] = row[0]
+            context['lastName'] = row[1] 
+            context['account_type'] = value['account_type']
+            context["isLoggedIn"] = isLoggedIn(request)
+
 def home(request):
-    return render(request, 'index.html')
+    context = {}
+    configureNavBar(request, context)
+    return render(request, 'index.html', context)
 
 @account_permission('doctor')
 def doctor_appointment_list(request):
     context = {}
-    
+    configureNavBar(request, context)
     doctor_id = 2
     
     if request.method == 'POST':
@@ -45,7 +61,7 @@ def patient_appointment_list(request):
     Generates a list of appointments made by a patient
     """
     context = {}
-    
+    configureNavBar(request, context)
     # Assuming that a logged-in patient account invoked this view
     account_data = request.session['account_data']
     patient_id = get_account_id(account_data['account_id'], account_data['account_type'])
@@ -84,7 +100,7 @@ def make_appointment(request):
     Provides the mechanisms by which valid appointments can be made
     """
     context = {}
-    
+    configureNavBar(request, context)
     # Assuming that a logged-in patient account invoked this view
     account_data = request.session['account_data']
     patient_id = get_account_id(account_data['account_id'], account_data['account_type'])

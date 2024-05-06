@@ -1,76 +1,38 @@
-{% extends "base_accounts.html" %}
-
-{% block title %} Patient Registration Page {% endblock %}
-
-{% block nav_list %}
-<li><a href="{% url 'registerDoctor' %}">Doctor Registration</a></li>
-<li><a href="{% url 'account_login' %}">Login</a></li> 
-{% endblock %}
-
-{% block form_heading %} Patient Registration {% endblock %}
-{% block form_fields %}
-{% if error_message %}
-<p class="error-message">
-    {{error_message}}
-</p>
-{% endif %}
-<p>
-    <label for="first-name">First Name:</label>
-    <input type="text" id="first-name" name="first_name" required>
-</p>
-<p>
-    <label for="last-name">Last Name:</label>
-    <input type="text" id="last-name" name="last_name" required>
-</p>
-<p>
-    <label for="date-of-birth">Date of Birth:</label>
-    <input type="date" id="date-of-birth" name="date_of_birth" required>
-</p>
-<p>
-<fieldset>
-    <legend>Sex:</legend>
-    <span><input type="radio" id="male" name="sex" value="m"><label for="male">Male</label></span>
-    <span><input type="radio" id="female" name="sex" value="f"><label for="female">Female</label></span>
-</fieldset>
-</p>
-<p>
-    <label for="address">Address:</label>
-    <input type="text" id="address" name="address" required>
-</p>
-<p>
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
-</p>
-<p>
-    <label for="contact">Contact:</label>
-    <input type="tel" id="contact" name="contact" required>
-</p>
-<p>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-</p>
-<p>
-    <label for="confirm-password">Confirm Password:</label>
-    <input type="password" id="confirm-password" name="confirm_password" required>
-</p>
-{% endblock %}
-
-{% block submit_txt %}Register{% endblock %}
-
-{% block field_style %}
-<style>
-    legend {
-        font-weight: bold;
-    }
-
-    input[type='radio'] + label {
-        display: inline;
-        font-weight: normal;
-        vertical-align: 1px;
-    }
-
-    fieldset span:first-of-type {
-        margin-right: 20px;
-    }
-</style>
+{% extends 'base_generic.html' %}
+{% block body %}
+    <div class="container">
+        <form action="/accounts/registerPatient" method="post" style="max-width: 400px; margin: 0 auto;" class="form px-3 pt-1 my-5 shadow">
+            {% csrf_token %}
+            <h4 class="text-center mt-5">Register Patient</h4>
+            <div class="form-group">
+                <input type="text" class="form-control" id="name" name="first_name" placeholder="First Name">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="name" name="last_name" placeholder="Last Name">
+            </div>
+            <div class="form-group">
+                <input type="date" class="form-control" id="dateOfBirth" name="date_of_birth" placeholder="Date of Birth">
+            </div>
+            <div class="form-group">
+                <fieldset>
+                    <legend>Sex:</legend>
+                    <span><input type="radio" id="male" name="sex" value="m"><label for="male">Male</label></span>
+                    <span><input type="radio" id="female" name="sex" value="f"><label for="female">Female</label></span>
+                </fieldset>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="address" name="address" placeholder="Address">
+            </div>
+            <div class="form-group">
+                <input type="tel" class="form-control" id="contact" name="contact" placeholder="Contact">
+            </div>
+            <div class="form-group">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            </div>
+            <input type="submit" class="btn btn-primary mb-3" value="Submit">
+        </form>
+    </div>
 {% endblock %}
