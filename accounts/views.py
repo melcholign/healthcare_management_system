@@ -4,6 +4,27 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from datetime import date
 from util.functions import dictfetchall
+from util.decorators import account_permission
+
+@account_permission('doctor')
+def change_availability(request):
+    
+    """
+    Updates if a doctor is available or not
+    """
+    
+    with connection.cursor() as cursor:
+        cursor.execute(f'''
+                        UPDATE accounts_doctor
+                        SET available = 
+                            CASE
+                                WHEN available = 0 THEN 1
+                                ELSE 0
+                            END
+                        WHERE user_id = {request.session['account_data']['account_id']}
+                        ''')
+    
+    return HttpResponseRedirect(reverse('account_page'))
 
 def registerDoctor(request):
     cursor = connection.cursor()
