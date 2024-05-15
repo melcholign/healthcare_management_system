@@ -15,7 +15,7 @@ class Doctor(models.Model):
     available = models.BooleanField(default=True)   # whether or not a doctor is available to accept patients
 
     def __str__(self):
-        return "Dr. " + self.user.last_name + " - " + self.specialty
+        return "Dr. " + str(self.user.first_name) + " - " + self.specialty
 
 
 class Patient(models.Model):
@@ -30,7 +30,7 @@ class Patient(models.Model):
     contact = models.BigIntegerField()  # A ten digit number for mobile number
 
     def __str__(self):
-        return self.user.first_name + ' ' + self.user.last_name
+        return str(self.user.first_name)
     
 class Institution(models.Model):
     """Represents a medical/healthcare institution that employs doctors"""
@@ -57,15 +57,15 @@ class Availability(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['doctor', 'work_day', 'start_time', 'end_time'],
-                                    violation_error_message='A doctor must be available at any unique time and day',
-                                    name='unique_availability'),
-            models.CheckConstraint(check=Q(start_time__lt=F('end_time')),
-                                   violation_error_message='Start time of availability must be less than its end time',
-                                   name='check_availability_time'),
-        ]
+    # class Meta:
+    #     constraints = [
+    #         models.UniqueConstraint(fields=['doctor', 'work_day', 'start_time', 'end_time'],
+    #                                 violation_error_message='A doctor must be available at any unique time and day',
+    #                                 name='unique_availability'),
+    #         models.CheckConstraint(check=Q(start_time__lt=F('end_time')),
+    #                                violation_error_message='Start time of availability must be less than its end time',
+    #                                name='check_availability_time'),
+    #     ]
         
     def __str__(self):
         return self.doctor.__str__() + " - " + str(self.start_time) + " - " + str(self.end_time) + " - " + self.work_day
