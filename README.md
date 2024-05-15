@@ -1,7 +1,7 @@
 Healthcare Management System
 ============================
 
-It is our group[^1] project for the CSE311L course of the BSCSE program offered by the Dept of ECE at North South University. Our project proposal _(with some Grammarly tweaks)_ is given below:
+It is our group[^1] project for the CSE311L course of the BSCSE program offered by the Dept of ECE at North South University. Our project proposal _(with some tweaks)_ is given below:
 
 [^1]: Faiyad Hossain (proposer), Abir Al Mahdi Akhand, Wasiq Iqbal, Muhammad Ahnaf Islam, Umar Hasan
 
@@ -37,7 +37,7 @@ Technologies
 ------------
 The list of technologies to be employed in the development of the application is as of yet incomplete, and also subject to change according to the needs over the course of the development period.
 
-- Frontend: HTML5, CSS3, Bootstrap 4, JavaScript
+- Frontend: HTML5, CSS3, Bootstrap 5, JavaScript
 - Backend: Django, MySQL
 - Data Visualization: Chart.js / D3.js / matplotlib
 
