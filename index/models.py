@@ -35,6 +35,5 @@ class Diagnosis(models.Model):
     symptoms = models.CharField(max_length=1000)
     isValid = models.BooleanField(default=True)
 
-# prescription table -- appt id, meds, dosage, timing of day, before/after food
-# diagnosis -- appt id, disease name, isvalid 
+
 # disposal -- array of dicts, 

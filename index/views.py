@@ -59,10 +59,12 @@ def diagnosis(request, appointmentID):
     if request.method == 'POST':
         post_data = request.POST
         disease = post_data['disease']
+        symptoms = post_data['symptoms']
+        isValid = post_data['isValid']
         
         with connection.cursor() as cursor:
-            cursor.execute(f'''INSERT INTO index_diagnosis (appointment, disease)
-                           VALUES ({appointmentID}, "{disease}")
+            cursor.execute(f'''INSERT INTO index_diagnosis (appointment, disease, symptoms, isValid)
+                           VALUES ({appointmentID}, "{disease}", "{symptoms}", "{isValid}")
                            ''')
         
         return HttpResponseRedirect(reverse('doctor_appointment_list'))
@@ -70,6 +72,8 @@ def diagnosis(request, appointmentID):
     context['appointment_list'] = __fetch_doctor_appointment_list(doctor_id)
     
     return render(request, 'diagnosis.html', context)
+
+
 
 
 @account_permission('doctor')
