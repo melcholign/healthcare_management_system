@@ -71,6 +71,7 @@ def diagnosis(request, appointmentID):
     
     return render(request, 'diagnosis.html', context)
 
+
 @account_permission('doctor')
 def doctor_appointment_list(request):
     context = {}
