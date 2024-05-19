@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RenameField(
             model_name='doctor',
-            old_name='is_available',
+            old_name='available',
             new_name='available',
         ),
     ]

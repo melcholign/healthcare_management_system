@@ -21,7 +21,7 @@ class Appointment(models.Model):
         return (str(self.doctor_schedule.doctor) + " - " + str(self.patient) + " - " + str(self.date) 
                 + " - " + str(self.doctor_schedule.start_time) + " - " + str(self.doctor_schedule.end_time))
     
-    
+
 class Prescription(models.Model):
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
     medicine = models.CharField(max_length=100)
@@ -32,6 +32,7 @@ class Prescription(models.Model):
 class Diagnosis(models.Model):
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
     disease = models.CharField(max_length=100)
+    symptoms = models.CharField(max_length=1000)
     isValid = models.BooleanField(default=True)
 
 # prescription table -- appt id, meds, dosage, timing of day, before/after food
