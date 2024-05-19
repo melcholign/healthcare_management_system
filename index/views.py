@@ -50,7 +50,26 @@ def prescribe(request, appointmentID):
     
     return render(request, 'prescribe.html', context)
 
-
+@account_permission('doctor')
+def diagnosis(request, appointmentID):
+    context = {}
+    configureNavBar(request, context)
+    doctor_id = 2
+    
+    if request.method == 'POST':
+        post_data = request.POST
+        disease = post_data['disease']
+        
+        with connection.cursor() as cursor:
+            cursor.execute(f'''INSERT INTO index_diagnosis (appointment, disease)
+                           VALUES ({appointmentID}, "{disease}")
+                           ''')
+        
+        return HttpResponseRedirect(reverse('doctor_appointment_list'))
+    
+    context['appointment_list'] = __fetch_doctor_appointment_list(doctor_id)
+    
+    return render(request, 'diagnosis.html', context)
 
 @account_permission('doctor')
 def doctor_appointment_list(request):
