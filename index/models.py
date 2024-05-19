@@ -20,10 +20,20 @@ class Appointment(models.Model):
     def __str__(self):
         return (str(self.doctor_schedule.doctor) + " - " + str(self.patient) + " - " + str(self.date) 
                 + " - " + str(self.doctor_schedule.start_time) + " - " + str(self.doctor_schedule.end_time))
-
-class Disposals(models.Model):
-    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
-    problem = models.TextField()
-    prescription = models.TextField()
     
+    
+class Prescription(models.Model):
+    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
+    medicine = models.CharField(max_length=100)
+    dosage = models.CharField(max_length=100)
+    timing = models.TimeField()
+    beforeMeal = models.BooleanField(default=True)
 
+class Diagnosis(models.Model):
+    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
+    disease = models.CharField(max_length=100)
+    isValid = models.BooleanField(default=True)
+
+# prescription table -- appt id, meds, dosage, timing of day, before/after food
+# diagnosis -- appt id, disease name, isvalid 
+# disposal -- array of dicts, 
