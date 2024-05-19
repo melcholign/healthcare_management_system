@@ -80,3 +80,8 @@ body {
     margin-top: 7rem;
   }
 }
+
+    /* Add any additional custom styles for the sidebar here */
+    .offcanvas-header {
+      border-bottom: 1px solid rgba(0, 0, 0, .1);
+    }
