@@ -1,11 +1,86 @@
 from django.shortcuts import render
 from django.db import connection
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from datetime import date
-from util.functions import dictfetchall
+from util.functions import dictfetchall, get_account_id
 from util.decorators import account_permission
+from django.views.decorators.csrf import csrf_exempt
+import json
+
+@csrf_exempt
+@account_permission('doctor')
+def schedules(request):
+    """
+    Create, update, and delete schedules of a doctor
+    """
+    doctor_id = get_account_id(request.session['account_data']['account_id'], request.session['account_data']['account_type'])
+    
+    if request.method == 'GET':
+        with connection.cursor() as cursor:
+            
+            # Get all the doctor's schedules that have not been set as deleted
+            cursor.execute(f'''
+                           SELECT id, work_day, start_time, end_time
+                           FROM accounts_availability
+                           WHERE doctor_id = {doctor_id} AND deleted = 0
+                           ''')
+            context = dictfetchall(cursor)
+        
+        return JsonResponse(context, safe=False)
+    
+    if request.method == 'POST':
+
+        created = json.loads(request.body)['created']   
+             
+        with connection.cursor() as cursor:
+            cursor.execute(f'''
+                           INSERT INTO accounts_availability (doctor_id, work_day, start_time, end_time, deleted)
+                           VALUES ({doctor_id}, '{created['work_day']}', '{created['start_time']}', '{created['end_time']}', 0)
+                           ''')
+            
+            new_schedule = {
+                'id': cursor.lastrowid,
+                'work_day': created['work_day'],
+                'start_time': created['start_time'],
+                'end_time': created['end_time']
+            }
+        
+        return JsonResponse(new_schedule, safe=False)
+            
+    if request.method == 'DELETE':
+        deleted = json.loads(request.body)['deleted']
+        
+        with connection.cursor() as cursor:
+            
+            # check the schedule is a dependency of some appointment records
+            cursor.execute(f'''
+                           SELECT * FROM index_appointment
+                           WHERE doctor_schedule_id = {deleted['id']}
+                           ''')
+            
+            dependants = dictfetchall(cursor)
+            
+            print(dependants)
+            
+            # if some records depend on the selected schedule, then set its deleted attribute to 1
+            # else delete the schedule from the database
+            if dependants:
+                cursor.execute(f'''
+                               UPDATE accounts_availability
+                               SET deleted = 1
+                               WHERE id = {deleted['id']}
+                               ''')
+                
+            else:
+                cursor.execute(f'''
+                            DELETE FROM accounts_availability
+                            WHERE id = {deleted['id']}
+                            ''')
+            
+        return HttpResponse(status=200)
+    
 
 @account_permission('doctor')
 def change_availability(request):
@@ -135,6 +210,8 @@ def registerPatient(request):
 def account_login(request):
     session_data = request.session
     
+    print(session_data)
+        
     if 'account_data' in session_data:    
         return redirect("/")
     
@@ -157,6 +234,8 @@ def account_login(request):
                 'account_id': user['id'],
                 'account_type': __get_account_type(user['id']),
             }
+            
+            print(request.session['account_data'])
             
             return redirect("/")
 

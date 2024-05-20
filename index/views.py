@@ -9,16 +9,15 @@ from accounts.views import isLoggedIn
 
 # Create your views here.
 def configureNavBar(request, context):
-    for key, value in request.session.items():
-        print(f"Key: {key}, Value: {value}")
+    account_data = request.session['account_data']
     if isLoggedIn(request):
         with connection.cursor() as cursor:
-            cursor.execute(f'''select first_name, last_name from auth_user where id = {value['account_id']}
+            cursor.execute(f'''select first_name, last_name from auth_user where id = {account_data['account_id']}
                                ''')
             row = cursor.fetchone()
             context['firstName'] = row[0]
             context['lastName'] = row[1] 
-            context['account_type'] = value['account_type']
+            context['account_type'] = account_data['account_type']
             context["isLoggedIn"] = isLoggedIn(request)
 
 def home(request):
@@ -37,15 +36,12 @@ def doctor_appointment_list(request):
         
         date = post_data['date']
         start_time = post_data['start_time']
-    
-        print(date)
-        print(start_time)
         
         with connection.cursor() as cursor:
             cursor.execute(f'''DELETE FROM index_appointment
                            WHERE date = "{date}" AND doctor_schedule_id in (
                                SELECT id FROM accounts_availability
-                               WHERE doctor_id = {doctor_id} AND start_time = "{start_time}"
+                               WHERE doctor_id = {doctor_id} AND start_time = "{start_time}" 
                            )
                            ''')
         
@@ -62,32 +58,46 @@ def patient_appointment_list(request):
     """
     context = {}
     configureNavBar(request, context)
+    
     # Assuming that a logged-in patient account invoked this view
     account_data = request.session['account_data']
     patient_id = get_account_id(account_data['account_id'], account_data['account_type'])
     
+    # handles rescheduling and deletion one at a time
     if request.method == 'POST':
         post_data = request.POST
+        
         with connection.cursor() as cursor:
+            # request to reschedule appointment
             if 'reschedule' in post_data:
                 appointment_id = post_data['reschedule']
+                
+                # Get the week day of the date when an appointment had been set
                 cursor.execute(f'''
                                SELECT work_day from accounts_availability AS ava
                                JOIN index_appointment AS app ON doctor_schedule_id = ava.id
                                WHERE app.id = {appointment_id}
                                ''')
+                
+                # Get the date of the upcoming week day
                 date = next_weekday_date(cursor.fetchall()[0][0])
+                
+                
                 cursor.execute(f'''
                                INSERT INTO index_appointment (doctor_schedule_id, patient_id, date, status)
                                SELECT doctor_schedule_id, patient_id, "{date}", "p"
                                FROM index_appointment
                                WHERE id = {appointment_id}   
                                ''')
+                
+            # request to cancel appointment
             else:
                 appointment_id = post_data['cancel']
-
-            cursor.execute(f'DELETE FROM index_appointment WHERE id={appointment_id}')
-            
+                
+                # Delete appointment record using appointment_id
+                cursor.execute(f'DELETE FROM index_appointment WHERE id={appointment_id}')
+    
+    # Update appointment statuses
     __update_appointments(patient_id)
     context['appointment_list'] = __fetch_patient_appointment_list(patient_id)
     
@@ -215,6 +225,9 @@ def __fetch_doctor_appointment_list(doctor_id):
     return appointment_list
 
 def __fetch_patient_appointment_list(patient_id):
+    """
+    Get the list of all appointments that a patient that a patient has pending, missed, and visited
+    """
     with connection.cursor() as cursor:
         cursor.execute(f'''
                        SELECT app.id AS id, date, start_time, end_time, CONCAT(first_name, " ", last_name) AS doctor_name,
@@ -234,11 +247,12 @@ def __update_appointments(patient_id):
     Update the status of a pending appointment to 'm' for 'missed'
     if its date or time has been passed
     """
+    
     with connection.cursor() as cursor:
         cursor.execute(f'''
                     UPDATE index_appointment
                     SET status = "m"
-                    WHERE patient_id = {patient_id}
+                    WHERE patient_id = {patient_id} and status = 'p'
                     AND (date < CURDATE() OR (date = CURDATE() AND id in (
                         SELECT id FROM accounts_availability
                         WHERE id = doctor_schedule_id
@@ -266,7 +280,7 @@ def __fetch_doctor_schedule_list(patient_id):
             cursor.execute(f'''
                 (SELECT ava.id AS schedule_id, work_day, start_time, end_time
                 FROM accounts_availability AS ava
-                WHERE doctor_id={doctor['id']})
+                WHERE doctor_id={doctor['id']}) and deleted=0
                 EXCEPT
                 (SELECT ava.id AS schedule_id, work_day, start_time, end_time 
                 FROM accounts_availability as ava JOIN index_appointment ON doctor_schedule_id=ava.id

@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('department', models.CharField(max_length=100)),
                 ('qualification', models.TextField()),
                 ('contact', models.BigIntegerField()),
-                ('is_available', models.BooleanField(default=True)),
+                ('available', models.BooleanField(default=True)),
                 ('user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL)),
                 ('workplace', models.ForeignKey(on_delete=django.db.models.deletion.RESTRICT, to='accounts.institution')),
             ],

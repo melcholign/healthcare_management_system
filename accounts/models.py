@@ -11,7 +11,7 @@ class Doctor(models.Model):
     department = models.CharField(max_length=100)
     qualification = models.TextField()
     workplace = models.ForeignKey('Institution', on_delete=models.RESTRICT)
-    contact = models.BigIntegerField()  # A ten digit number for mobile number
+    contact = models.BigIntegerField()              # A ten digit number for mobile number
     available = models.BooleanField(default=True)   # whether or not a doctor is available to accept patients
 
     def __str__(self):
@@ -57,15 +57,18 @@ class Availability(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
     
-    # class Meta:
-    #     constraints = [
-    #         models.UniqueConstraint(fields=['doctor', 'work_day', 'start_time', 'end_time'],
-    #                                 violation_error_message='A doctor must be available at any unique time and day',
-    #                                 name='unique_availability'),
-    #         models.CheckConstraint(check=Q(start_time__lt=F('end_time')),
-    #                                violation_error_message='Start time of availability must be less than its end time',
-    #                                name='check_availability_time'),
-    #     ]
+    # flag to indicate that a schedule is deleted, if the record is referenced by a foreign key
+    deleted = models.BooleanField(default=False) 
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['doctor', 'work_day', 'start_time', 'end_time'],
+                                    violation_error_message='A doctor must be available at any unique time and day',
+                                    name='unique_availability'),
+            models.CheckConstraint(check=Q(start_time__lt=F('end_time')),
+                                   violation_error_message='Start time of availability must be less than its end time',
+                                   name='check_availability_time'),
+        ]
         
     def __str__(self):
         return self.doctor.__str__() + " - " + str(self.start_time) + " - " + str(self.end_time) + " - " + self.work_day

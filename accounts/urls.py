@@ -18,3 +18,7 @@ urlpatterns += [
     path('account_page/patient_appointment_list', index_views.patient_appointment_list, name='patient_appointment_list'),
     path('account_page/doctor_appointment_list', index_views.doctor_appointment_list, name='doctor_appointment_list')
 ]
+
+urlpatterns += [
+    path('schedules', views.schedules, name='schedules')
+]
