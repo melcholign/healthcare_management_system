@@ -170,17 +170,9 @@
     </div>
     <div class="offcanvas-body" data-bs-theme="dark">
       <ul class="list-unstyled ps-0">
-        <li class="mb-1">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
-            Register
-          </button>
-          <div class="collapse" id="home-collapse">
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="patientform.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Patient Registration</a></li>
-              <li><a href="doctorform.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Doctor Registration</a></li>
-            </ul>
-          </div>
-        </li>
+        
+        {% if isLoggedIn %}
+        {% if account_type == 'patient' %}
         <li class="mb-1">
           <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
             Patient Dashboard
@@ -194,6 +186,7 @@
             </ul>
           </div>
         </li>
+        {% else %}
         <li class="mb-1">
           <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
             Doctor Dashboard
@@ -207,6 +200,7 @@
             </ul>
           </div>
         </li>
+        {% endif %}
         <li class="border-top my-3"></li>
         <li class="mb-1">
           <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
@@ -219,6 +213,20 @@
             </ul>
           </div>
         </li>
+        {% else %}
+        <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
+            Register
+          </button>
+          <div class="collapse" id="home-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a href="patientform.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Patient Registration</a></li>
+              <li><a href="doctorform.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Doctor Registration</a></li>
+            </ul>
+          </div>
+        </li>
+        {% endif %}
+        
       </ul>
     </div>
   </div>
@@ -280,7 +288,7 @@
 <!-- FOOTER -->
 <footer class="container">
   <p class="float-end"><a href="#">Back to top</a></p>
-  <p>&copy; 2024 Frontend: Umar Hasan</p>
+  <p>&copy; 2024 G5 Healthcare Management System</p>
 </footer>
 </main>
 
