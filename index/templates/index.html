@@ -21,65 +21,7 @@
 {% endif %}
 
 
-  <!-- Offcanvas sidebar -->
-  <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasSidebar">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasSidebarLabel">G5 Healthcare Manager</h5>
-    </div>
-    <div class="offcanvas-body" data-bs-theme="dark">
-      <ul class="list-unstyled ps-0">
-        <li class="mb-1">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
-            Register
-          </button>
-          <div class="collapse" id="home-collapse">
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="patientform.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Patient Registration</a></li>
-              <li><a href="doctorform.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Doctor Registration</a></li>
-            </ul>
-          </div>
-        </li>
-        <li class="mb-1">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-            Patient Dashboard
-          </button>
-          <div class="collapse" id="dashboard-collapse">
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Make an Appointment</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Doctor Info</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Prescription</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">History</a></li>
-            </ul>
-          </div>
-        </li>
-        <li class="mb-1">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-            Doctor Dashboard
-          </button>
-          <div class="collapse" id="orders-collapse">
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Check Appointments</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Patient Info</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Disposal</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">History</a></li>
-            </ul>
-          </div>
-        </li>
-        <li class="border-top my-3"></li>
-        <li class="mb-1">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-            Account
-          </button>
-          <div class="collapse" id="account-collapse">
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="sign-in.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign in</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign out</a></li>
-            </ul>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
+  
 
   <main>
     <!-- Carousel -->
@@ -91,44 +33,32 @@
         <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
       </div>
       <div class="carousel-inner">
-        <div class="carousel-item active">
-          <svg class="bd-placeholder-img1" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <rect width="100%" height="100%" fill="var(--bs-secondary-color)" />
-          </svg>
-          <div class="container">
-            <div class="carousel-caption text-start">
-              <h1>Your Health, Our Mission</h1>
-              <p>Looking for the best healthcare management system?</p>
-              <p><a class="btn btn-lg btn-primary" href="#register">Register Today</a></p>
+        <div class="carousel-item active" style="background-image: url('/static/index_hero1.jpg');">
+            <div class="container">
+                <div class="carousel-caption text-start">
+                    <h1>Your Health, Our Mission</h1>
+                    <p>Looking for the best healthcare management system?</p>
+                    <p><a class="btn btn-lg btn-primary" href="#register">Register Today</a></p>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="carousel-item">
-          <svg class="bd-placeholder-img2" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <rect width="100%" height="100%" fill="var(--bs-secondary-color)" />
-          </svg>
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>Seamless Care, Exceptional Outcomes</h1>
-              <p>Some representative placeholder content for the second slide of the carousel.</p>
-              <p><a class="btn btn-lg btn-primary" href="#contact">Contact Us</a></p>
+        <div class="carousel-item" style="background-image: url('/static/index_hero2.jpg');">
+            <div class="container">
+                <div class="carousel-caption text-start">
+                    <h1>Your Health, Our Mission</h1>
+                    <p>Looking for the best healthcare management system?</p>
+                    <p><a class="btn btn-lg btn-primary" href="#register">Register Today</a></p>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="carousel-item">
-          <svg class="bd-placeholder-img3" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <rect width="100%" height="100%" fill="var(--bs-secondary-color)" />
-          </svg>
-          <div class="container">
-            <div class="carousel-caption text-end">
-              <h1>Revolutionizing Care with Every Click</h1>
-              <p>Some representative placeholder content for the third slide of this carousel.</p>
-              <p><a class="btn btn-lg btn-primary" href="#about">About Us</a></p>
+        <div class="carousel-item " style="background-image: url('/static/index_hero3.jpg');">
+            <div class="container">
+                <div class="carousel-caption text-start">
+                    <h1>Your Health, Our Mission</h1>
+                    <p>Looking for the best healthcare management system?</p>
+                    <p><a class="btn btn-lg btn-primary" href="#register">Register Today</a></p>
+                </div>
             </div>
-          </div>
         </div>
       </div>
       <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
@@ -153,37 +83,22 @@
       <!-- Three columns of text below the carousel -->
       <div class="row">
         <div class="col-lg-4">
-          <!--<a href="https://www.freepik.com/icon/man_6997546">Icon by Prosymbols Premium</a>-->
-          <svg class="bd-placeholder-img-marketing1 rounded-circle" width="140" height="140"
-            xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice"
-            focusable="false">
-            <title>Placeholder</title>
-            <rect width="0" height="0" fill="var(--bs-secondary-color)" />
-          </svg>
-          <h2 class="fw-normal">Ahnaf Islam</h2>
-          <p>The best of its kind!</p>
+            <!--<a href="https://www.freepik.com/icon/man_6997546">Icon by Prosymbols Premium</a>-->
+            <img class="bd-placeholder-img-marketing1 rounded-circle" width="140" height="140" src="/static/ahnaf.png" alt="Placeholder">
+            <h2 class="fw-normal">Ahnaf Islam</h2>
+            <p>The best of its kind!</p>
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
-          <!--<a href="https://www.freepik.com/icon/man_6997484">Icon by Prosymbols Premium</a>-->
-          <svg class="bd-placeholder-img-marketing2 rounded-circle" width="140" height="140"
-            xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice"
-            focusable="false">
-            <title>Placeholder</title>
-            <rect width="0" height="0" fill="var(--bs-secondary-color)" />
-          </svg>
-          <h2 class="fw-normal">Wasiq Iqbal</h2>
-          <p>Couldn't be happier!</p>
+            <!--<a href="https://www.freepik.com/icon/man_6997546">Icon by Prosymbols Premium</a>-->
+            <img class="bd-placeholder-img-marketing1 rounded-circle" width="140" height="140" src="/static/wasiq.png" alt="Placeholder">
+            <h2 class="fw-normal">Wasiq Iqbal</h2>
+            <p>Awful Service!</p>
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
-          <!--<a href="https://www.freepik.com/icon/man_6997500">Icon by Prosymbols Premium</a>-->
-          <svg class="bd-placeholder-img-marketing3 rounded-circle" width="140" height="140"
-            xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder" preserveAspectRatio="xMidYMid slice"
-            focusable="false">
-            <title>Placeholder</title>
-            <rect width="0" height="0" fill="var(--bs-secondary-color)" />
-          </svg>
-          <h2 class="fw-normal">Umar Hasan</h2>
-          <p>Outstanding management!</p>
+            <!--<a href="https://www.freepik.com/icon/man_6997546">Icon by Prosymbols Premium</a>-->
+            <img class="bd-placeholder-img-marketing1 rounded-circle" width="140" height="140" src="/static/umar.png" alt="Placeholder">
+            <h2 class="fw-normal">Umar Hasan</h2>
+            <p>The best of its kind!</p>
         </div><!-- /.col-lg-4 -->
       </div><!-- /.row -->
 
@@ -201,51 +116,42 @@
                 class="btn btn-lg btn-primary" href="doctorform.html">Doctor Registration</a></p>
           </div>
           <div class="col-md-5">
-            <svg class="bd-placeholder-img-featurette bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-              width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
-              preserveAspectRatio="xMidYMid slice" focusable="false">
-              <title>Placeholder</title>
-            </svg>
+            <img class="bd-placeholder-img-featurette bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+                          src="/static/index_feature.jpg" alt="Placeholder" width="500" height="500">
           </div>
         </div>
       </section>
 
-      <section id="contact">
-      <hr class="featurette-divider">
+    <section id="contact">
+        <hr class="featurette-divider">
         <div class="row featurette">
-          <div class="col-md-7 order-md-2">
-            <h2 class="featurette-heading fw-normal lh-1">Contact Us</h2>
-            <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this
-              layout would work with some actual real-world content in place.</p>
-          </div>
-          <div class="col-md-5 order-md-1">
-            <svg class="bd-placeholder-img-contact bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
-              height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
-              preserveAspectRatio="xMidYMid slice" focusable="false">
-              <title>Placeholder</title>
-            </svg>
-          </div>
+            <div class="col-md-7 order-md-2">
+                <h2 class="featurette-heading fw-normal lh-1">Contact Us</h2>
+                <p class="lead">Another featurette? Of course. More placeholder content here to give you an idea of how this
+                    layout would work with some actual real-world content in place.</p>
+            </div>
+            <div class="col-md-5 order-md-1">
+                <img class="bd-placeholder-img-contact bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
+                    height="500" src="/static/index_contact.jpg" alt="Placeholder">
+            </div>
         </div>
-      </section>
+    </section>
 
-      <section id="about">
-      <hr class="featurette-divider">
-        <div class="row featurette">
-          <div class="col-md-7">
-            <h2 class="featurette-heading fw-normal lh-1">About Us</h2>
-            <p class="lead">And yes, this is the last block of representative placeholder content. Again, not really
-              intended to be actually read, simply here to give you a better view of what this would look like with some
-              actual content. Your content.</p>
-          </div>
-          <div class="col-md-5">
-            <svg class="bd-placeholder-img-about bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
-              height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500"
-              preserveAspectRatio="xMidYMid slice" focusable="false">
-              <title>Placeholder</title>
-            </svg>
-          </div>
+    <section id="about">
+    <hr class="featurette-divider">
+      <div class="row featurette">
+        <div class="col-md-7">
+        <h2 class="featurette-heading fw-normal lh-1">About Us</h2>
+        <p class="lead">And yes, this is the last block of representative placeholder content. Again, not really
+          intended to be actually read, simply here to give you a better view of what this would look like with some
+          actual content. Your content.</p>
         </div>
-      </section>
+        <div class="col-md-5">
+        <img class="bd-placeholder-img-about bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500"
+          height="500" src="/static/index_about.png" alt="Placeholder">
+        </div>
+      </div>
+    </section>
 
       <hr class="featurette-divider">
 
