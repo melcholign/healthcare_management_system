@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+  <head><script src="../assets/js/color-modes.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.122.0">
+    <title>Patient's Registration Form</title>
+    
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/checkout/">
+
+    
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+
+<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+
+  .b-example-divider {
+    width: 100%;
+    height: 3rem;
+    background-color: rgba(0, 0, 0, .1);
+    border: solid rgba(0, 0, 0, .15);
+    border-width: 1px 0;
+    box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+  }
+
+  .b-example-vr {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 100vh;
+  }
+
+  .bi {
+    vertical-align: -.125em;
+    fill: currentColor;
+  }
+
+  .nav-scroller {
+    position: relative;
+    z-index: 2;
+    height: 2.75rem;
+    overflow-y: hidden;
+  }
+
+  .nav-scroller .nav {
+    display: flex;
+    flex-wrap: nowrap;
+    padding-bottom: 1rem;
+    margin-top: -1px;
+    overflow-x: auto;
+    text-align: center;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .bd-mode-toggle {
+    z-index: 1500;
+  }
+
+  .bd-mode-toggle .dropdown-menu .active .bi {
+    display: block !important;
+  }
+</style>
+
+   
+    <!-- Custom styles for this template -->
+    <link href="regform.css" rel="stylesheet">
+    <link href="index.css" rel="stylesheet">
+    <link href="sidebars.css" rel="stylesheet">
+    
+  </head>
+  <body class="bg-body-tertiary">
+<!-- navbar -->
+<header data-bs-theme="dark">
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-toggler-icon" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"></a>
+      <!--<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>-->
+      <text>&nbsp;</text>
+      <a class="navbar-brand" href="index.html" style="margin: 0px auto;">G5 Healthcare Manager</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" style="display:none">        
+    </button>
+
+    <!-- potentially unnecessary element -->
+     <!-- <div class="collapse navbar-collapse" id="navbarCollapse">
+      </div>-->
+
+    </div>
+  </nav>
+</header>
+<!-- navbar ends -->
+<!-- sidebar -->
+<div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasSidebar">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasSidebarLabel">G5 Healthcare Manager</h5>
+  </div>
+  <div class="offcanvas-body" data-bs-theme="dark">
+    <ul class="list-unstyled ps-0">
+      <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
+          Register
+        </button>
+        <div class="collapse" id="home-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="patientform.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Patient Registration</a></li>
+            <li><a href="doctorform.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Doctor Registration</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+          Patient Dashboard
+        </button>
+        <div class="collapse" id="dashboard-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Make an Appointment</a></li>
+            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Doctor Info</a></li>
+            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Prescription</a></li>
+            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">History</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+          Doctor Dashboard
+        </button>
+        <div class="collapse" id="orders-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Check Appointments</a></li>
+            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Patient Info</a></li>
+            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Disposal</a></li>
+            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">History</a></li>
+          </ul>
+        </div>
+      </li>
+      <li class="border-top my-3"></li>
+      <li class="mb-1">
+        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+          Account
+        </button>
+        <div class="collapse" id="account-collapse">
+          <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <li><a href="sign-in.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign in</a></li>
+            <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign out</a></li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- sidebar ends -->
+<div class="container">
+  <main>
+   <div class="row justify-content-center">
+    <div class="py-5 text-center">
+      <!--<img class="d-block mx-auto mb-4" src="patreg.jpg" alt="" width="200" height="200">-->
+      <h2 class="titlefont"><b>Patient's Registration Form</b></h2>
+    </div>
+
+    <hr class="my-0">
+    <!-- Form start -->
+    <div class="row g-4">
+        <form class="needs-validation" novalidate>
+
+          <div class="row g-3">
+
+            <div class="col-sm-6">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" placeholder="" value="" required>
+              <div class="invalid-feedback">
+                Valid email is required.
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="password" placeholder="" value="" required>
+              <div class="invalid-feedback">
+                Valid password is required.
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <label for="firstName" class="form-label">First name</label>
+              <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+              <div class="invalid-feedback">
+                Valid first name is required.
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="lastName" class="form-label">Last name</label>
+              <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+              <div class="invalid-feedback">
+                Valid last name is required.
+              </div>
+            </div>
+<!-- stopped here -->
+              <div class="col-sm-6">
+              <label for="gender" class="form-label">Gender</label>
+              <select class="form-select" id="country" required>
+                <option value="">Your Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+              <div class="invalid-feedback">
+                Please select your gender.
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="contact" class="form-label">Contact info</label>
+              <input type="number" class="form-control" id="contact" placeholder='' required>
+              <div class="invalid-feedback">
+                Please enter your contact information.
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="address" class="form-label">Address </label>
+              <input type="text" class="form-control" id="address" required>
+              <div class="invalid-feedback">
+                Please enter your address.
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <label for="nationality" class="form-label">Nationality</label>
+              <select class="form-select" id="nationality" required>
+                <option value="">Choose Nationality</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+              </select>
+              <div class="invalid-feedback">
+                Please choose your qualification.
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+                <label for="dob" class="form-label"><b>Date of Birth :</b></label>
+                <input type="date" class="form-control" id="dob" required>
+              <div class="invalid-feedback">
+                Please choose valid date of birth.
+              </div></div>
+
+          </div>
+<br>
+          <hr class="my-4">
+
+          <button class="w-100 btn btn-primary btn-lg" type="submit">Register</button>
+        </form>
+      </div></div>
+    </div>
+  </main>
+
+  <footer class="my-5 pt-5 text-body-secondary text-center text-small" >
+    <p class="mb-1">&copy; 2024 Frontend: Ahnaf Islam</p>
+  </footer>
+</div>
+<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="regform.js"></script></body>
+    <script src="sidebars.js"></script></body>
+</html>

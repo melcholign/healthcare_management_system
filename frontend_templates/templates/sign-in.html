@@ -1,3 +1,5 @@
+<!--This file is reserved for Wasiq Iqbal bhai-->
+
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 
@@ -9,7 +11,7 @@
   <meta name="description" content="">
   <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
   <meta name="generator" content="Hugo 0.122.0">
-  <title>Signin Template · Bootstrap v5.3</title>
+  <title>Sign-in</title>
 
   <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sign-in/">
 
@@ -84,15 +86,96 @@
 
   <!-- Custom styles for this template -->
   <link href="sign-in.css" rel="stylesheet">
+  <link href="index.css" rel="stylesheet">
+  <link href="sidebars.css" rel="stylesheet">
 </head>
 
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
 
+  <header data-bs-theme="dark">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-toggler-icon" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"></a>
+        <!--<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>-->
+        <text>&nbsp;</text>
+        <a class="navbar-brand" href="index.html" style="margin: 0px auto;">G5 Healthcare Manager</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" style="display:none">        
+      </button>
 
+      <!-- potentially unnecessary element -->
+       <!-- <div class="collapse navbar-collapse" id="navbarCollapse">
+        </div>-->
+
+      </div>
+    </nav>
+  </header>
+
+  <!-- Offcanvas sidebar -->
+  <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasSidebar">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasSidebarLabel">G5 Healthcare Manager</h5>
+    </div>
+    <div class="offcanvas-body" data-bs-theme="dark">
+      <ul class="list-unstyled ps-0">
+        <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
+            Register
+          </button>
+          <div class="collapse" id="home-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a href="patientform.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Patient Registration</a></li>
+              <li><a href="doctorform.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Doctor Registration</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+            Patient Dashboard
+          </button>
+          <div class="collapse" id="dashboard-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Make an Appointment</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Doctor Info</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Prescription</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">History</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+            Doctor Dashboard
+          </button>
+          <div class="collapse" id="orders-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Check Appointments</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Patient Info</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Disposal</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">History</a></li>
+            </ul>
+          </div>
+        </li>
+        <li class="border-top my-3"></li>
+        <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+            Account
+          </button>
+          <div class="collapse" id="account-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a href="sign-in.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign in</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign out</a></li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
 
   <main class="form-signin w-100 m-auto">
+    <br><br><br><br><br>
     <form>
-      <img class="mb-4" src="index_about.png" alt="" width="72" height="57">
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
       <div class="form-floating">
@@ -111,11 +194,12 @@
         </label>
       </div>-->
       <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+      <br><br><br><br><br>
       <p class="mt-5 mb-3 text-body-secondary">&copy; 2024 Group-5, CSE311L.7, Spring-24, Dept of ECE, NSU</p>
     </form>
   </main>
   <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-
+  <script src="sidebars.js"></script>
 </body>
 
 </html>

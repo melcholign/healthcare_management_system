@@ -26,6 +26,56 @@ def home(request):
     return render(request, 'index.html', context)
 
 @account_permission('doctor')
+def prescribe(request, appointmentID):
+    context = {}
+    configureNavBar(request, context)
+    doctor_id = 2
+    
+    if request.method == 'POST':
+        post_data = request.POST
+        medicine = post_data['medicine']
+        dosage = post_data['dosage']
+        timing = post_data['timing']
+        before_meal = post_data['before_meal']
+        
+        with connection.cursor() as cursor:
+            cursor.execute(f'''INSERT INTO index_prescription (appointment, medicine, dosage, timing, before_meal)
+                           VALUES ({appointmentID}, "{medicine}", "{dosage}", "{timing}", {before_meal})
+                           ''')
+        
+        return HttpResponseRedirect(reverse('doctor_appointment_list'))
+    
+    context['appointment_list'] = __fetch_doctor_appointment_list(doctor_id)
+    
+    return render(request, 'prescribe.html', context)
+
+@account_permission('doctor')
+def diagnosis(request, appointmentID):
+    context = {}
+    configureNavBar(request, context)
+    doctor_id = 2
+    
+    if request.method == 'POST':
+        post_data = request.POST
+        disease = post_data['disease']
+        symptoms = post_data['symptoms']
+        isValid = post_data['isValid']
+        
+        with connection.cursor() as cursor:
+            cursor.execute(f'''INSERT INTO index_diagnosis (appointment, disease, symptoms, isValid)
+                           VALUES ({appointmentID}, "{disease}", "{symptoms}", "{isValid}")
+                           ''')
+        
+        return HttpResponseRedirect(reverse('doctor_appointment_list'))
+    
+    context['appointment_list'] = __fetch_doctor_appointment_list(doctor_id)
+    
+    return render(request, 'diagnosis.html', context)
+
+
+
+
+@account_permission('doctor')
 def doctor_appointment_list(request):
     context = {}
     configureNavBar(request, context)

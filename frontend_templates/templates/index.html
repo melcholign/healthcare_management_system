@@ -98,15 +98,6 @@
       user-select: none;
     }
 
-    .bd-placeholder-img {
-      background-image: url('');
-      font-size: 1.125rem;
-      text-anchor: middle;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      user-select: none;
-    }
-
     @media (min-width: 768px) {
       .bd-placeholder-img-lg {
         font-size: 3.5rem;
@@ -133,41 +124,6 @@
       fill: currentColor;
     }
 
-    .nav-scroller {
-      position: relative;
-      z-index: 2;
-      height: 2.75rem;
-      overflow-y: hidden;
-    }
-
-    .nav-scroller .nav {
-      display: flex;
-      flex-wrap: nowrap;
-      padding-bottom: 1rem;
-      margin-top: -1px;
-      overflow-x: auto;
-      text-align: center;
-      white-space: nowrap;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .btn-bd-primary {
-      --bd-violet-bg: #0d68ec;
-      --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
-      --bs-btn-font-weight: 600;
-      --bs-btn-color: var(--bs-white);
-      --bs-btn-bg: var(--bd-violet-bg);
-      --bs-btn-border-color: var(--bd-violet-bg);
-      --bs-btn-hover-color: var(--bs-white);
-      --bs-btn-hover-bg: #0d68ec;
-      --bs-btn-hover-border-color: #0d68ec;
-      --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
-      --bs-btn-active-color: var(--bs-btn-hover-color);
-      --bs-btn-active-bg: #0d68ec;
-      --bs-btn-active-border-color: #0d68ec;
-    }
-
     .bd-mode-toggle {
       z-index: 1500;
     }
@@ -175,19 +131,15 @@
     .bd-mode-toggle .dropdown-menu .active .bi {
       display: block !important;
     }
-
-    /* Add any additional custom styles for the sidebar here */
-    .offcanvas-header {
-      border-bottom: 1px solid rgba(0, 0, 0, .1);
-    }
   </style>
 
   <link href="index.css" rel="stylesheet">
   <link href="sidebars.css" rel="stylesheet">
 </head>
 
-<body>
 
+<body>
+  
   <header data-bs-theme="dark">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <div class="container-fluid">
@@ -197,7 +149,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>-->
         <text>&nbsp;</text>
-        <a class="navbar-brand" href="#" style="margin: 0px auto;">G5 Healthcare Manager</a>
+        <a class="navbar-brand" href="index.html" style="margin: 0px auto;">G5 Healthcare Manager</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" style="display:none">        
       </button>
 
@@ -222,8 +174,8 @@
           </button>
           <div class="collapse" id="home-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Patient Registration</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Doctor Registration</a></li>
+              <li><a href="patientform.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Patient Registration</a></li>
+              <li><a href="doctorform.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Doctor Registration</a></li>
             </ul>
           </div>
         </li>
@@ -385,8 +337,8 @@
             <h2 class="featurette-heading fw-normal lh-1">Register Today</span></h2>
             <p class="lead">Some great placeholder content for the first featurette here. Imagine some exciting prose
               here.</p>
-            <p><a class="btn btn-lg btn-primary" href="#">Patient Registration</a><text>&nbsp;&nbsp;</text><a
-                class="btn btn-lg btn-primary" href="#">Doctor Registration</a></p>
+            <p><a class="btn btn-lg btn-primary" href="patientform.html">Patient Registration</a><text>&nbsp;&nbsp;</text><a
+                class="btn btn-lg btn-primary" href="doctorform.html">Doctor Registration</a></p>
           </div>
           <div class="col-md-5">
             <svg class="bd-placeholder-img-featurette bd-placeholder-img-lg featurette-image img-fluid mx-auto"
@@ -445,7 +397,7 @@
     <!-- FOOTER -->
     <footer class="container">
       <p class="float-end"><a href="#">Back to top</a></p>
-      <p>&copy; 2024 Group-5, CSE311L.7, Spring-24, Dept of ECE, NSU</p>
+      <p>&copy; 2024 Frontend: Umar Hasan</p>
     </footer>
   </main>
 
