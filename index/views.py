@@ -9,15 +9,16 @@ from accounts.views import isLoggedIn
 
 # Create your views here.
 def configureNavBar(request, context):
-    account_data = request.session['account_data']
+    for key, value in request.session.items():
+        print(f"Key: {key}, Value: {value}")
     if isLoggedIn(request):
         with connection.cursor() as cursor:
-            cursor.execute(f'''select first_name, last_name from auth_user where id = {account_data['account_id']}
+            cursor.execute(f'''select first_name, last_name from auth_user where id = {value['account_id']}
                                ''')
             row = cursor.fetchone()
             context['firstName'] = row[0]
             context['lastName'] = row[1] 
-            context['account_type'] = account_data['account_type']
+            context['account_type'] = value['account_type']
             context["isLoggedIn"] = isLoggedIn(request)
 
 def home(request):

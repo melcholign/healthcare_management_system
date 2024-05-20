@@ -1,97 +1,171 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %}</title>
-    <style>
-        body {
-            margin: 0px;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-            font-size: 1rem;
-            height: 100vh;
-        }
-
-        .site-header {
-            position: sticky;
-            top: 0px;
-            z-index: 1;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 50px;
-            padding: 5px 10px;
-            background-color: #00C180;
-            box-shadow: 0px 2px 5px 2px lightgray;
-        }
-
-        .site-logo {
-            font-size: 2rem;
-            font-weight: 1000;
-            color: #f0f0f0;
-        }
-
-        .page-nav ul, li {
-            margin: 0px;
-            padding: 0px;
-        }
-
-        .page-nav ul {
-            list-style-type: none;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 10px;
-        }
-    </style>
-    {% block page_style %}{% endblock %}
-</head>
-<body>
-    <header class="site-header">
-        <div class="site-logo">Header Logo</div>
-        <nav class="page-nav">
-            <ul>
-                {% block nav_list %}{% endblock %}
-            </ul>
-        </nav>
-    </header>
-    <main>
-        {% block content %}{% endblock %}
-    </main>
-    {% block scripts %}{% endblock %}
-</body>
-</html> -->
-
-
-
-
-
-
-
 
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+<html lang="en" data-bs-theme="auto">
 
-    <title>Album example for Bootstrap</title>
+<head>
+  <script src="../assets/js/color-modes.js"></script>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/album/">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.122.0">
+  <title>Home | G5 Healthcare Manager</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/carousel/">
 
-    <!-- Custom styles for this template -->
-    <link href="album.css" rel="stylesheet">
-  </head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+  
+  <link href="/static/bootstrap.min.css" rel="stylesheet">
 
-  <body>
+  <style>
+    .bd-placeholder-img1 {
+      background-image: url('index_hero1.jpg');
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
+    .bd-placeholder-img2 {
+      background-image: url('index_hero2.jpg');
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    .bd-placeholder-img3 {
+      background-image: url('index_hero3.jpg');
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    .bd-placeholder-img-marketing1 {
+      background-image: url('ahnaf.png');
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    .bd-placeholder-img-marketing2 {
+      background-image: url('wasiq.png');
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    .bd-placeholder-img-marketing3 {
+      background-image: url('umar.png');
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    .bd-placeholder-img-featurette {
+      background-image: url('index_feature.jpg');
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    .bd-placeholder-img-contact {
+      background-image: url('index_contact.jpg');
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    .bd-placeholder-img-about {
+      background-image: url('index_about.png');
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    .b-example-divider {
+      width: 100%;
+      height: 3rem;
+      background-color: rgba(0, 0, 0, .1);
+      border: solid rgba(0, 0, 0, .15);
+      border-width: 1px 0;
+      box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+    }
+
+    .b-example-vr {
+      flex-shrink: 0;
+      width: 1.5rem;
+      height: 100vh;
+    }
+
+    .bi {
+      vertical-align: -.125em;
+      fill: currentColor;
+    }
+
+    .bd-mode-toggle {
+      z-index: 1500;
+    }
+
+    .bd-mode-toggle .dropdown-menu .active .bi {
+      display: block !important;
+    }
+  </style>
+
+  <link href="/static/index.css" rel="stylesheet">
+  <link href="/static/sidebars.css" rel="stylesheet">
+</head>
+
+
+<body>
+  
+  <header data-bs-theme="dark">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-toggler-icon" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar"></a>
+        <!--<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>-->
+        <text>&nbsp;</text>
+        <a class="navbar-brand" href="index.html" style="margin: 0px auto;">G5 Healthcare Manager</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" style="display:none">        
+      </button>
+
+      <!-- potentially unnecessary element -->
+       <!-- <div class="collapse navbar-collapse" id="navbarCollapse">
+        </div>-->
+
+      </div>
+    </nav>
+  </header>
+
+
+
+    <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
       <a class="navbar-brand" href="#">Healthcare Management System</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -133,7 +207,7 @@
           {% endif %}
         </form>
       </div>
-    </nav>
+    </nav> -->
 
 
 
@@ -143,24 +217,16 @@
 
 
 
-    <footer class="bg-dark text-light py-5">
-        <div class="container">
-          <p class="float-right">
-            <a href="#">Back to top</a>
-          </p>
-          <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-          <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a href="../../getting-started/">getting started guide</a>.</p>
-        </div>
-      </footer>
-  
-      <!-- Bootstrap core JavaScript
-      ================================================== -->
-      <!-- Placed at the end of the document so the pages load faster -->
-      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.7/holder.min.js" integrity="sha384-7m8l6zF4Z3e1zj3q4z+2z3y8v5y8v5y8v5y8v5y8v5y8v5y8v5y8v5y8v5y8v5y" crossorigin="anonymous"></script>
-    </body>
-  </html>
-  
+<!-- FOOTER -->
+<footer class="container">
+  <p class="float-end"><a href="#">Back to top</a></p>
+  <p>&copy; 2024 Frontend: Umar Hasan</p>
+</footer>
+</main>
+
+<script src="/static/bootstrap.bundle.min.js"></script>
+<script src="/static/sidebars.js"></script>
+
+</body>
+
+</html>
