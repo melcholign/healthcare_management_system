@@ -176,7 +176,7 @@ def registerPatient(request):
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         date_of_birth = request.POST['date_of_birth']
-        sex = request.POST['sex']
+        sex = request.POST['gender']
         address = request.POST['address']
         contact = request.POST['contact']
         email = request.POST['email']
