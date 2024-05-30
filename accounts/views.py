@@ -134,6 +134,7 @@ def registerDoctor(request):
     configureNavBar(request, context)
     
     if request.method == "POST":
+        print("form accessed")
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         specialty = request.POST['specialty']

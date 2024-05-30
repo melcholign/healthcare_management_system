@@ -4,50 +4,101 @@
     <div class="container my-4 py-1">
         
         
-        <form action="/accounts/registerDoctor" method="post" style="max-width: 400px; margin: 0 auto;" class="form px-3 my-5 shadow">
-            <h4 class="text-center mt-5 pt-3">Register Doctor</h4>
-            {% csrf_token %}
-            <div class="form-group">
-                <input type="text" class="form-control" id="name" name="first_name" placeholder="Name">
-            </div>
-            <div class="form-group">
-                <input type="text" class="form-control" id="lastname" name="last_name" placeholder="Name">
-            </div>
-
-            <div class="form-group">
-                <input type="text" class="form-control" id="speciality" name="specialty" placeholder="Speciality">
-            </div>
-
-
-            <div class="form-group">
-                <input type="text" class="form-control" id="department" name="department" placeholder="Department">
-            </div>
-
-            <div class="form-group">
-                <textarea class="form-control" id="qualification" name="qualification" placeholder="Qualification"></textarea>
-            </div>
-
-            <div class="form-group">
-                <select name="workplace" id="workplace" required class="form-control">
-                    <option value="" disabled selected>Select your workplace</option>
-                    {% for place in workplaces %}
-                    <option value="{{place.1}}">{{place.0}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="form-group">
-                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
-            </div>
-
-            <div class="form-group">
-                <input type="number" class="form-control" id="contact" name="contact" placeholder="Contact">
-            </div>
-            <div class="form-group">
-                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-            </div>
-            
-            <input type="submit" class="btn btn-primary mb-3" value="Submit">
-        </form>
+        <main>
+            <div class="row justify-content-center">
+             <div class="py-5 text-center">
+               <h2 class="titlefont"><b>Doctor's Registration Form</b></h2>
+             </div>
+         
+             <hr class="my-0">
+             <!-- Form start -->
+             <div class="row g-4">
+                 <form class="needs-validation" method="post" action="/accounts/registerDoctor">
+                    {% csrf_token %}
+                   <div class="row g-3">
+         
+                     <div class="col-sm-6">
+                       <label for="email" class="form-label">Email</label>
+                       <input type="email" class="form-control" id="email" name="email" placeholder="" value="" required>
+                       <div class="invalid-feedback">
+                         Valid email is required.
+                       </div>
+                     </div>
+                     <div class="col-sm-6">
+                       <label for="password" class="form-label">Password</label>
+                       <input type="password" class="form-control" id="password" name="password" placeholder="" value="" required>
+                       <div class="invalid-feedback">
+                         Valid password is required.
+                       </div>
+                     </div>
+                     <div class="col-sm-6">
+                       <label for="firstName" class="form-label">First name</label>
+                       <input type="text" class="form-control" id="firstName" name="first_name" placeholder="" value="" required>
+                       <div class="invalid-feedback">
+                         Valid first name is required.
+                       </div>
+                     </div>
+         
+                     <div class="col-sm-6">
+                       <label for="lastName" class="form-label">Last name</label>
+                       <input type="text" class="form-control" id="lastName" name="last_name" placeholder="" value="" required>
+                       <div class="invalid-feedback">
+                         Valid last name is required.
+                       </div>
+                     </div>
+         <!-- stopped here -->
+                    <div class="col-sm-6">
+                        <label for="department" class="form-label">Department</label>
+                        <input type="text" class="form-control" id="department" name="department" placeholder="" value="" required>
+                        <div class="invalid-feedback">
+                            Valid department is required.
+                        </div>
+                    </div>
+         
+                     <div class="col-sm-6">
+                       <label for="contact" class="form-label">Contact info</label>
+                       <input type="number" class="form-control" id="contact" name="contact" placeholder='' required>
+                       <div class="invalid-feedback">
+                         Please enter your contact information.
+                       </div>
+                     </div>
+         
+                     <div class="col-12">
+                       <label for="license" class="form-label">Specialty </label>
+                       <input type="text" class="form-control" id="specialty" name="specialty" required>
+                       <div class="invalid-feedback">
+                         Please enter your specialty.
+                       </div>
+                     </div>
+         
+                    <div class="col-sm-6"></div>
+                        <label for="qualification" class="form-label">Qualification</label>
+                        <input type="text" class="form-control" id="qualification" name="qualification" placeholder="" value="" required>
+                        <div class="invalid-feedback">
+                            Valid qualification is required.
+                        </div>
+                    </div>
+         
+                     <div class="col-sm-6">
+                       <label for="workplace" class="form-label">Workplace</label>
+                       <select class="form-select" id="workplace" name="workplace" required>
+                         <option value="">Choose Workplace</option>
+                         {% for i in workplaces %}
+                         <option value="{{i.1}}">{{i.0}}</option>
+                         {% endfor %}
+                       </select>
+                       <div class="invalid-feedback">
+                         Please choose your workplace.
+                       </div></div>
+         
+                   </div>
+                    <br>
+                   <hr class="my-4">
+         
+                   <button class="w-100 btn btn-primary btn-lg">Register</button>
+                 </form>
+               </div></div>
+             </div>
+           </main>
     </div>
 {% endblock %}
