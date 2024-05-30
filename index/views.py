@@ -6,6 +6,7 @@ from datetime import datetime
 from util.decorators import account_permission
 from util.functions import dictfetchall, next_weekday_date, get_account_id
 from accounts.views import isLoggedIn
+from django.shortcuts import redirect
 
 # Create your views here.
 def configureNavBar(request, context):
@@ -217,7 +218,7 @@ def make_appointment(request):
             else:
                 cursor.execute(f'''INSERT INTO index_appointment(doctor_schedule_id, patient_id, date, status) 
                                VALUES ({schedule_id}, {patient_id}, "{date}", "p")''')
-                return render(request, 'index.html')
+                return redirect("/")
                 
    
     context['doctor_schedule_list'] = __fetch_doctor_schedule_list(patient_id)
@@ -329,13 +330,13 @@ def __fetch_doctor_schedule_list(patient_id):
             # For each available doctor, get their schedules except those that already 
             # share an appointment with the patient
             cursor.execute(f'''
-                (SELECT ava.id AS schedule_id, work_day, start_time, end_time
+                SELECT ava.id AS schedule_id, work_day, start_time, end_time
                 FROM accounts_availability AS ava
-                WHERE doctor_id={doctor['id']}) and deleted=0
+                WHERE doctor_id={doctor['id']} and deleted=0
                 EXCEPT
-                (SELECT ava.id AS schedule_id, work_day, start_time, end_time 
+                SELECT ava.id AS schedule_id, work_day, start_time, end_time 
                 FROM accounts_availability as ava JOIN index_appointment ON doctor_schedule_id=ava.id
-                WHERE patient_id={patient_id} AND status='p')
+                WHERE patient_id={patient_id} AND status='p'
             ''')
             
             doctor_schedule_list += [{
