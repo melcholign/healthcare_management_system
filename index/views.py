@@ -9,6 +9,7 @@ from accounts.views import isLoggedIn
 from django.shortcuts import redirect
 
 # Create your views here.
+
 def configureNavBar(request, context):
     for key, value in request.session.items():
         print(f"Key: {key}, Value: {value}")
@@ -26,6 +27,69 @@ def home(request):
     context = {}
     configureNavBar(request, context)
     return render(request, 'index.html', context)
+
+@account_permission('doctor')
+def attend_appointment(request, appointment_id):
+    
+    context = {}
+    
+    if request.method == 'GET':
+        
+        with connection.cursor() as cursor:
+            
+            cursor.execute(f'''
+                           SELECT patient.id AS id, CONCAT(first_name, " ", last_name) AS name, 
+                            TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE()) AS age, sex
+                           FROM index_appointment AS appointment
+                           JOIN accounts_patient AS patient ON appointment.patient_id = patient.id
+                           JOIN auth_user as user ON patient.user_id = user.id
+                           WHERE appointment.id = {appointment_id}
+                           ''')
+            patient_info = dictfetchall(cursor)[0]
+            patient_info['sex'] = 'Male' if patient_info['sex'] is 'm' else 'Female'
+            
+            cursor.execute(f'''
+                           SELECT doctor.id AS id, CONCAT("Dr. ", first_name, " ", last_name) AS name, specialty, 
+                            department, qualification, workplace_id AS workplace, contact
+                           FROM index_appointment AS appointment
+                           JOIN accounts_availability AS availability ON appointment.doctor_schedule_id = availability.id
+                           JOIN accounts_doctor AS doctor ON availability.doctor_id = doctor.id
+                           JOIN accounts_institution AS institution ON institution.address = doctor.workplace_id
+                           JOIN auth_user as user ON doctor.user_id = user.id
+                           WHERE appointment.id = {appointment_id} 
+                           ''')
+            doctor_info = dictfetchall(cursor)[0]
+            
+            cursor.execute(f'''
+                           SELECT disease FROM index_diagnosis AS diagnosis
+                           JOIN index_appointment AS appointment ON diagnosis.appointment_id = appointment.id
+                           JOIN accounts_patient AS patient ON appointment.patient_id = patient.id
+                           JOIN accounts_availability AS availability ON appointment.doctor_schedule_id = availability.id
+                           JOIN accounts_doctor AS doctor ON availability.doctor_id = doctor.id
+                           WHERE patient.id = {patient_info['id']} AND doctor.id = {doctor_info['id']} AND isValid = true
+                           ''')
+            previous_diagnoses = dictfetchall(cursor)
+            
+            cursor.execute(f'''
+                           SELECT medicine, dosage, timing, beforeMeal
+                           FROM index_prescription AS prescription
+                           JOIN index_appointment AS appointment ON prescription.appointment_id = appointment.id
+                           JOIN accounts_patient AS patient ON appointment.patient_id = patient.id
+                           JOIN accounts_availability AS availability ON appointment.doctor_schedule_id = availability.id
+                           JOIN accounts_doctor AS doctor ON availability.doctor_id = doctor.id
+                           WHERE patient.id = {patient_info['id']} AND doctor.id = {doctor_info['id']}
+                           ''')
+                        
+            context.update({
+                'patient_info': patient_info,
+                'doctor_info': doctor_info,
+                'previous_diagnoses': previous_diagnoses,
+                'previous_prescription': previous_prescription,
+            })
+            
+            return render(request, 'attend_appointment.html', context)
+            
+    
 
 @account_permission('doctor')
 def prescribe(request, appointmentID):
