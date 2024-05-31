@@ -1,0 +1,19 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.table {
+    background-color: #ffffff;
+}
+
+.container {
+    max-width: 900px;
+    margin-top: 50px;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
