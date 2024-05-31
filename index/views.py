@@ -46,10 +46,11 @@ def attend_appointment(request, appointment_id):
                            WHERE appointment.id = {appointment_id}
                            ''')
             patient_info = dictfetchall(cursor)[0]
+            patient_info['sex'] = 'Male' if patient_info['sex'] is 'm' else 'Female'
             
             cursor.execute(f'''
                            SELECT doctor.id AS id, CONCAT("Dr. ", first_name, " ", last_name) AS name, specialty, 
-                            department, qualification, workplace_id, contact
+                            department, qualification, workplace_id AS workplace, contact
                            FROM index_appointment AS appointment
                            JOIN accounts_availability AS availability ON appointment.doctor_schedule_id = availability.id
                            JOIN accounts_doctor AS doctor ON availability.doctor_id = doctor.id
@@ -78,13 +79,12 @@ def attend_appointment(request, appointment_id):
                            JOIN accounts_doctor AS doctor ON availability.doctor_id = doctor.id
                            WHERE patient.id = {patient_info['id']} AND doctor.id = {doctor_info['id']}
                            ''')
-            previous_prescription = dictfetchall(cursor)
-            
+                        
             context.update({
-                patient_info: patient_info,
-                doctor_info: doctor_info,
-                previous_diagnoses: previous_diagnoses,
-                previous_prescription: previous_prescription,
+                'patient_info': patient_info,
+                'doctor_info': doctor_info,
+                'previous_diagnoses': previous_diagnoses,
+                'previous_prescription': previous_prescription,
             })
             
             return render(request, 'attend_appointment.html', context)

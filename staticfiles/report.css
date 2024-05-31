@@ -1,0 +1,21 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+#report-title {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+}
+
+.collapsible {
+    margin-top: 10px;
+}
+
+.content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
