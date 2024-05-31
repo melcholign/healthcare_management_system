@@ -1,0 +1,47 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.table {
+    background-color: #ffffff;
+}
+
+#pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.sort-indicator {
+    cursor: pointer;
+    margin-left: 5px;
+    font-size: 0.8em;
+}
+
+.sort-asc::after {
+    content: "▲";
+}
+
+.sort-desc::after {
+    content: "▼";
+}
+
+.container {
+    max-width: 900px;
+    margin-top: 50px;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.table th {
+    background-color: white;
+    color: black;
+}
+
+.table-actions button {
+    margin-right: 5px;
+}
