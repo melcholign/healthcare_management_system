@@ -1,6 +1,6 @@
 $(document).ready(function () {
     // Workdays array for dropdown
-    const workdays = ['Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday'];
+    const workdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
     // Function to add a new row
     function addRow() {
@@ -29,6 +29,34 @@ $(document).ready(function () {
         $(this).closest('tr').remove();
     });
 
-    // Initial row
-    addRow();
+    // Event listener for Update Schedules button
+    $("#updateSchedules").click(function () {
+        // Collect schedule data
+        const schedules = [];
+        $("#scheduleTable tbody tr").each(function () {
+            const workday = $(this).find('.workday-dropdown').val();
+            const startTime = $(this).find('.start-time').val();
+            const endTime = $(this).find('.end-time').val();
+            if (workday && startTime && endTime) {
+                schedules.push({ workday, startTime, endTime });
+            }
+        });
+
+        // Send data to server (replace with actual server endpoint)
+        $.ajax({
+            url: '/update-schedules',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ schedules }),
+            success: function (response) {
+                alert('Schedules updated successfully!');
+            },
+            error: function (error) {
+                alert('Failed to update schedules.');
+            }
+        });
+    });
+
+    // Initial display (existing schedules)
+    // The initial rows are hardcoded in the HTML for this example.
 });

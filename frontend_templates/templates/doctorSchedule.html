@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h2 class="mb-4">Schedule Manager</h2>
+        <h2 class="mb-4">Doctor Schedule Management</h2>
         <table class="table table-bordered" id="scheduleTable">
             <thead>
                 <tr>
@@ -21,9 +21,21 @@
             </thead>
             <tbody>
                 <!-- Rows will be dynamically inserted here -->
+                <tr>
+                    <td>
+                        <select class="form-control workday-dropdown" disabled>
+                            <option value="Monday">Monday</option>
+                        </select>
+                    </td>
+                    <td><input type="time" class="form-control start-time" value="09:00" disabled></td>
+                    <td><input type="time" class="form-control end-time" value="17:00" disabled></td>
+                    <td><button class="btn btn-danger btn-sm delete-btn">Delete</button></td>
+                </tr>
+                <!-- More existing schedules as needed -->
             </tbody>
         </table>
         <button id="addRow" class="btn btn-primary">Add Schedule</button>
+        <button id="updateSchedules" class="btn btn-success">Update Schedules</button>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
