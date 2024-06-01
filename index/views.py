@@ -9,6 +9,7 @@ from accounts.views import isLoggedIn
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
 import json
+from pprint import pprint
 
 # Create your views here.
 
@@ -245,7 +246,7 @@ def patient_appointment_list(request):
     # Update appointment statuses
     __update_appointments(patient_id)
     context['appointment_list'] = __fetch_patient_appointment_list(patient_id)
-    
+    pprint(context)
     return render(request, 'patient_appointment_list.html', context)
 
 

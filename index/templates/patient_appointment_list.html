@@ -2,57 +2,8 @@
 
 {% block title %}Appointment List{% endblock %}
 
-{% block content %}
-<table>
-    <thead>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Doctor Name</th>
-        <th>Specialty</th>
-        <th>Workplace</th>
-        <th>Status</th>
-        <th></th>
-    </thead>
-    <tbody>
-        {% if appointment_list %}
-        {% for a in appointment_list %}
-        <tr>
-            <td>{{a.date}}</td>
-            <td>{{a.start_time}} - {{a.end_time}}</td>
-            <td>{{a.doctor_name}}</td>
-            <td>{{a.specialty}}</td>
-            <td>{{a.workplace}}</td>
-            <td class="status-{{a.status}}">
-                {% if a.status == 'v' %}
-                Visited
-                {% elif a.status == 'm' %}
-                Missed
-                {% else %}
-                Pending
-                {% endif %}
-            </td>
-            <td>
-                <form action="{% url 'patient_appointment_list' %}" method="post">
-                    {% csrf_token %}
-                    {% if a.status == 'p' %}
-                    <button class="cancel" name="cancel" value="{{a.id}}">Cancel</button>
-                    {% else %}
-                    <button class="reschedule" name="reschedule" value="{{a.id}}">Reschedule</button>
-                    {% endif %}
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-        {% else %}
-        <tr>
-            <td colspan="6">You have no pending appointment</td>
-        </tr>
-        {% endif %}
-    </tbody>
-</table>
-{% endblock %}
+{% block body %}
 
-{% block page_style %}
 
 <style>
     table,
@@ -108,4 +59,54 @@
     }
 </style>
 
+
+<table style="margin: 100px;">
+    <thead>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Doctor Name</th>
+        <th>Specialty</th>
+        <th>Workplace</th>
+        <th>Status</th>
+        <th></th>
+    </thead>
+    <tbody>
+        {% if appointment_list %}
+        {% for a in appointment_list %}
+        <tr>
+            <td>{{a.date}}</td>
+            <td>{{a.start_time}} - {{a.end_time}}</td>
+            <td>{{a.doctor_name}}</td>
+            <td>{{a.specialty}}</td>
+            <td>{{a.workplace}}</td>
+            <td class="status-{{a.status}}">
+                {% if a.status == 'v' %}
+                Visited
+                {% elif a.status == 'm' %}
+                Missed
+                {% else %}
+                Pending
+                {% endif %}
+            </td>
+            <td>
+                <form action="{% url 'patient_appointment_list' %}" method="post">
+                    {% csrf_token %}
+                    {% if a.status == 'p' %}
+                    <button class="cancel" name="cancel" value="{{a.id}}">Cancel</button>
+                    {% else %}
+                    <button class="reschedule" name="reschedule" value="{{a.id}}">Reschedule</button>
+                    {% endif %}
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="6">You have no pending appointment</td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
 {% endblock %}
+
+
