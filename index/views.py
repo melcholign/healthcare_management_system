@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from django.db import connection
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from datetime import datetime
 from util.decorators import account_permission
 from util.functions import dictfetchall, next_weekday_date, get_account_id
 from accounts.views import isLoggedIn
 from django.shortcuts import redirect
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 # Create your views here.
 
@@ -28,6 +30,7 @@ def home(request):
     configureNavBar(request, context)
     return render(request, 'index.html', context)
 
+@csrf_exempt
 @account_permission('doctor')
 def attend_appointment(request, appointment_id):
     
@@ -46,7 +49,7 @@ def attend_appointment(request, appointment_id):
                            WHERE appointment.id = {appointment_id}
                            ''')
             patient_info = dictfetchall(cursor)[0]
-            patient_info['sex'] = 'Male' if patient_info['sex'] is 'm' else 'Female'
+            patient_info['sex'] = 'Male' if patient_info['sex'] == 'm' else 'Female'
             
             cursor.execute(f'''
                            SELECT doctor.id AS id, CONCAT("Dr. ", first_name, " ", last_name) AS name, specialty, 
@@ -61,7 +64,7 @@ def attend_appointment(request, appointment_id):
             doctor_info = dictfetchall(cursor)[0]
             
             cursor.execute(f'''
-                           SELECT disease FROM index_diagnosis AS diagnosis
+                           SELECT diagnosis.id AS id, disease FROM index_diagnosis AS diagnosis
                            JOIN index_appointment AS appointment ON diagnosis.appointment_id = appointment.id
                            JOIN accounts_patient AS patient ON appointment.patient_id = patient.id
                            JOIN accounts_availability AS availability ON appointment.doctor_schedule_id = availability.id
@@ -71,7 +74,7 @@ def attend_appointment(request, appointment_id):
             previous_diagnoses = dictfetchall(cursor)
             
             cursor.execute(f'''
-                           SELECT medicine, dosage, timing, beforeMeal
+                           SELECT prescription.id AS id, medicine, dosage, timing, beforeMeal
                            FROM index_prescription AS prescription
                            JOIN index_appointment AS appointment ON prescription.appointment_id = appointment.id
                            JOIN accounts_patient AS patient ON appointment.patient_id = patient.id
@@ -79,6 +82,7 @@ def attend_appointment(request, appointment_id):
                            JOIN accounts_doctor AS doctor ON availability.doctor_id = doctor.id
                            WHERE patient.id = {patient_info['id']} AND doctor.id = {doctor_info['id']}
                            ''')
+            previous_prescription = dictfetchall(cursor)
                         
             context.update({
                 'patient_info': patient_info,
@@ -88,7 +92,34 @@ def attend_appointment(request, appointment_id):
             })
             
             return render(request, 'attend_appointment.html', context)
+    
+    if request.method == 'POST':
+        
+        post_data = json.loads(request.body)
             
+        cured_diagnosis_ids = post_data['cured_diagnosis_ids']
+        deleted_prescription_ids = post_data['deleted_prescription_ids']
+        new_diagnoses = post_data['new_diagnoses']
+        new_prescriptions = post_data['new_prescriptions']
+        
+        with connection.cursor() as cursor:
+            for id in cured_diagnosis_ids:
+                cursor.execute(f'UPDATE index_diagnosis SET isValid = false WHERE id = {id}')
+            
+            
+            for id in deleted_prescription_ids:
+                cursor.execute(f'DELETE FROM index_prescription WHERE id = {id}')
+                
+            for diagnosis in new_diagnoses:
+                cursor.execute(f'''INSERT INTO index_diagnosis (appointment_id, disease, isValid)
+                               SELECT {appointment_id}, "{diagnosis}", 1''')
+                
+            for prescription in new_prescriptions:
+                cursor.execute(f'''INSERT INTO index_prescription (appointment_id, medicine, dosage, timing, beforeMeal)
+                               SELECT {appointment_id}, "{prescription['medicine']}", {prescription['dosage']}, 
+                               "{prescription['timing']}", {prescription['before_meal']}''')
+        
+        return HttpResponse(status=200)
     
 
 @account_permission('doctor')
@@ -137,8 +168,6 @@ def diagnosis(request, appointmentID):
     context['appointment_list'] = __fetch_doctor_appointment_list(doctor_id)
     
     return render(request, 'diagnosis.html', context)
-
-
 
 
 @account_permission('doctor')

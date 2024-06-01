@@ -61,9 +61,7 @@ def schedules(request):
                            ''')
             
             dependants = dictfetchall(cursor)
-            
-            print(dependants)
-            
+                        
             # if some records depend on the selected schedule, then set its deleted attribute to 1
             # else delete the schedule from the database
             if dependants:

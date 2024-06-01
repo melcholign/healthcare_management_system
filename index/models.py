@@ -23,17 +23,25 @@ class Appointment(models.Model):
     
 
 class Prescription(models.Model):
+    TIMINGS = (
+        ('morning', 'Morning'),
+        ('noon', 'Noon'),
+        ('afternoon', 'Afternoon'),
+        ('evening', 'Evening'),
+        ('night', 'Night'),
+        ('midnight', 'Midnight')
+    )
+    
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
     medicine = models.CharField(max_length=100)
     dosage = models.CharField(max_length=100)
-    timing = models.TimeField()
+    timing = models.CharField(max_length=10, choices=TIMINGS)
     beforeMeal = models.BooleanField(default=True)
 
 class Diagnosis(models.Model):
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
     disease = models.CharField(max_length=100)
-    symptoms = models.CharField(max_length=1000)
+    symptoms = models.CharField(max_length=1000, null=True)
     isValid = models.BooleanField(default=True)
-
 
 # disposal -- array of dicts, 
