@@ -4,32 +4,29 @@
 
 {% block body %}
 
-
 <style>
-    table,
-    td,
-    th {
-        border: 1px solid black;
-    }
-
-    td,
-    th {
-        padding: 10px 20px;
-    }
-
     table {
         border-collapse: collapse;
+        width: 90%;
     }
 
-    td {
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
         text-align: center;
     }
 
-    .cancel,
-    .reschedule {
+    th {
+        background-color: #cbc6c6;
+    }
+
+    .cancel, .reschedule {
         color: white;
         font-weight: bold;
         font-size: 1.2rem;
+        padding: 6px 12px;
+        border: none;
+        cursor: pointer;
     }
 
     .cancel {
@@ -40,21 +37,18 @@
         background-color: darkgreen;
     }
 
-    .status-p,
-    .status-v,
-    .status-m {
-        font-weight: bold;
-    }
-
     .status-p {
+        font-weight: bold;
         color: darkorange;
     }
 
     .status-v {
+        font-weight: bold;
         color: limegreen;
     }
 
     .status-m {
+        font-weight: bold;
         color: red;
     }
 </style>

@@ -175,7 +175,8 @@ def diagnosis(request, appointmentID):
 def doctor_appointment_list(request):
     context = {}
     configureNavBar(request, context)
-    doctor_id = 2
+    doctor_id = get_account_id(request.session['account_data']['account_id'], 'doctor')
+
     
     if request.method == 'POST':
         post_data = request.POST
@@ -194,8 +195,10 @@ def doctor_appointment_list(request):
         return HttpResponseRedirect(reverse('doctor_appointment_list'))
     
     context['appointment_list'] = __fetch_doctor_appointment_list(doctor_id)
-    
+    pprint(context)
     return render(request, 'doctor_appointment_list.html', context)
+
+
 
 @account_permission('patient')
 def patient_appointment_list(request):
