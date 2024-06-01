@@ -2,8 +2,59 @@
 
 {% block title %}Appointment List{% endblock %}
 
-{% block content %}
-<table>
+{% block body %}
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 90%;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #cbc6c6;
+    }
+
+    .cancel, .reschedule {
+        color: white;
+        font-weight: bold;
+        font-size: 1.2rem;
+        padding: 6px 12px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .cancel {
+        background-color: rgb(241, 0, 0);
+    }
+    .visited {
+        background-color: rgb(94, 211, 5);
+    }
+    .reschedule {
+        background-color: darkgreen;
+    }
+
+    .status-p {
+        font-weight: bold;
+        color: darkorange;
+    }
+
+    .status-v {
+        font-weight: bold;
+        color: limegreen;
+    }
+
+    .status-m {
+        font-weight: bold;
+        color: red;
+    }
+</style>
+<table style="margin: 100px;">
     <colgroup>
         <col>
         <col>
@@ -31,6 +82,7 @@
                             <input type="hidden" name="date" value="{{date_group.date|date:'Y-m-d'}}">
                             <input type="hidden" name="start_time" value="{{date_group.time_slot.0.start_time|date:'H:i:s'}}">
                             <button class="cancel">Cancel</button>
+                            <button class="visited">Visited</button>
                         </form>
                     </td>
                 </tr>
@@ -44,7 +96,8 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="date" value="{{date_group.date|date:'Y-m-d'}}">
                                 <input type="hidden" name="start_time" value="{{t.start_time|date:'H:i:s'}}">
-                                    <button class="cancel">Cancel</button>
+                                <button class="cancel">Cancel</button>
+                                <button class="visited">Visited</button>
                                 </form>
                             </td>
                         </tr>
@@ -67,38 +120,3 @@
 </table>
 {% endblock %}
 
-{% block page_style %}
-
-<style>
-    table,
-    td,
-    th {
-        border: 1px solid black;
-    }
-
-    td,
-    th {
-        padding: 10px 20px;
-    }
-
-    table {
-        border-collapse: collapse;
-    }
-
-    td {
-        text-align: center;
-    }
-
-    tbody, col {
-        border: 3px solid black;
-    }
-
-    .cancel {
-        color: white;
-        font-weight: bold;
-        font-size: 1.2rem;
-        background-color: indianred;
-    }
-</style>
-
-{% endblock %}

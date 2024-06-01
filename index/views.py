@@ -9,6 +9,7 @@ from accounts.views import configureNavBar
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
 import json
+from pprint import pprint
 
 # Create your views here.
 
@@ -174,9 +175,8 @@ def diagnosis(request, appointmentID):
 def doctor_appointment_list(request):
     context = {}
     configureNavBar(request, context)
-    account_data = request.session['account_data']
-    doctor_id = get_account_id(account_data['account_id'], account_data['account_type'])
-    
+    doctor_id = get_account_id(request.session['account_data']['account_id'], 'doctor')
+
     if request.method == 'POST':
         post_data = request.POST
         
@@ -197,6 +197,8 @@ def doctor_appointment_list(request):
     print(context['appointment_list'])
     
     return render(request, 'doctor_appointment_list.html', context)
+
+
 
 @account_permission('patient')
 def patient_appointment_list(request):
@@ -247,7 +249,7 @@ def patient_appointment_list(request):
     # Update appointment statuses
     __update_appointments(patient_id)
     context['appointment_list'] = __fetch_patient_appointment_list(patient_id)
-    
+    pprint(context)
     return render(request, 'patient_appointment_list.html', context)
 
 

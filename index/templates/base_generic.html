@@ -172,35 +172,36 @@
       <ul class="list-unstyled ps-0">
         
         {% if isLoggedIn %}
-        {% if account_type == 'patient' %}
+          {% if account_type == 'patient' %}
         <li class="mb-1">
           <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
             Patient Dashboard
           </button>
           <div class="collapse" id="dashboard-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Make an Appointment</a></li>
+              <li><a href="/accounts/account_page/make_appointment" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Make an Appointment</a></li>
+              <li><a href="/accounts/account_page/patient_appointment_list" class="link-body-emphasis d-inline-flex text-decoration-none rounded">View Pending Appointments</a></li>
               <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Doctor Info</a></li>
               <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Prescription</a></li>
               <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">History</a></li>
             </ul>
           </div>
         </li>
-        {% else %}
+          {% else %}
         <li class="mb-1">
           <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
             Doctor Dashboard
           </button>
           <div class="collapse" id="orders-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Check Appointments</a></li>
+              <li><a href="/accounts/account_page/doctor_appointment_list" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Check Appointments</a></li>
               <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Patient Info</a></li>
               <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Disposal</a></li>
               <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">History</a></li>
             </ul>
           </div>
         </li>
-        {% endif %}
+          {% endif %}
         <li class="border-top my-3"></li>
         <li class="mb-1">
           <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
@@ -208,8 +209,8 @@
           </button>
           <div class="collapse" id="account-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="sign-in.html" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign in</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign out</a></li>
+              <li><a class="link-body-emphasis d-inline-flex text-decoration-none rounded">{{firstName}} {{lastName}} - {{account_type}}</a></li>
+              <li><a href="/accounts/account_logout" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign out</a></li>
             </ul>
           </div>
         </li>
@@ -222,6 +223,7 @@
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
               <li><a href="/accounts/registerPatient" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Patient Registration</a></li>
               <li><a href="/accounts/registerDoctor" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Doctor Registration</a></li>
+              <li><a href="/accounts/account_login" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign in</a></li>
             </ul>
           </div>
         </li>

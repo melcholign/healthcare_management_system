@@ -2,8 +2,59 @@
 
 {% block title %}Appointment List{% endblock %}
 
-{% block content %}
-<table>
+{% block body %}
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 90%;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #cbc6c6;
+    }
+
+    .cancel, .reschedule {
+        color: white;
+        font-weight: bold;
+        font-size: 1.2rem;
+        padding: 6px 12px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .cancel {
+        background-color: indianred;
+    }
+
+    .reschedule {
+        background-color: darkgreen;
+    }
+
+    .status-p {
+        font-weight: bold;
+        color: darkorange;
+    }
+
+    .status-v {
+        font-weight: bold;
+        color: limegreen;
+    }
+
+    .status-m {
+        font-weight: bold;
+        color: red;
+    }
+</style>
+
+
+<table style="margin: 100px;">
     <thead>
         <th>Date</th>
         <th>Time</th>
@@ -52,60 +103,4 @@
 </table>
 {% endblock %}
 
-{% block page_style %}
 
-<style>
-    table,
-    td,
-    th {
-        border: 1px solid black;
-    }
-
-    td,
-    th {
-        padding: 10px 20px;
-    }
-
-    table {
-        border-collapse: collapse;
-    }
-
-    td {
-        text-align: center;
-    }
-
-    .cancel,
-    .reschedule {
-        color: white;
-        font-weight: bold;
-        font-size: 1.2rem;
-    }
-
-    .cancel {
-        background-color: indianred;
-    }
-
-    .reschedule {
-        background-color: darkgreen;
-    }
-
-    .status-p,
-    .status-v,
-    .status-m {
-        font-weight: bold;
-    }
-
-    .status-p {
-        color: darkorange;
-    }
-
-    .status-v {
-        color: limegreen;
-    }
-
-    .status-m {
-        color: red;
-    }
-</style>
-
-{% endblock %}
