@@ -163,7 +163,7 @@ def registerDoctor(request):
                 INSERT INTO accounts_doctor(user_id, specialty, department, qualification, workplace_id, contact, available) 
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
             """
-            cursor.execute(doctorInsertQuery, [user_id, specialty, department, qualification, workplace, contact, False])
+            cursor.execute(doctorInsertQuery, [user_id, specialty, department, qualification, workplace, contact, True])
             return redirect("/")
                     
     return render(request, 'registerDoctor.html', context=context)

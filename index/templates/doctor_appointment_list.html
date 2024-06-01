@@ -29,12 +29,7 @@
         cursor: pointer;
     }
 
-    .cancel {
-        background-color: rgb(241, 0, 0);
-    }
-    .visited {
-        background-color: rgb(94, 211, 5);
-    }
+
     .reschedule {
         background-color: darkgreen;
     }
@@ -81,8 +76,10 @@
                             {% csrf_token %}
                             <input type="hidden" name="date" value="{{date_group.date|date:'Y-m-d'}}">
                             <input type="hidden" name="start_time" value="{{date_group.time_slot.0.start_time|date:'H:i:s'}}">
-                            <button class="cancel">Cancel</button>
-                            <button class="visited">Visited</button>
+                            <button class="cancel" style="background-color: red;">Cancel</button>
+                            <a href="/attend_appointment/{{date_group.time_slot.0.appointments.0.appointment_id}}">
+                                <button class="cancel" style="background-color: darkgreen;" type="button">Attend</button>
+                            </a>
                         </form>
                     </td>
                 </tr>
@@ -97,7 +94,7 @@
                                 <input type="hidden" name="date" value="{{date_group.date|date:'Y-m-d'}}">
                                 <input type="hidden" name="start_time" value="{{t.start_time|date:'H:i:s'}}">
                                 <button class="cancel">Cancel</button>
-                                <button class="visited">Visited</button>
+                                <a href=""><button class="visited">Attend</button></a>
                                 </form>
                             </td>
                         </tr>

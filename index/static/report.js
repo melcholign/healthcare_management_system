@@ -67,11 +67,13 @@ function post() {
             }
         )
     }).then(res => {
+        console.log(newPrescriptions)
 
         if(res.ok) {
-            //window.location.replace(`http://127.0.0.1:8000/accounts/account_page/doctor_appointment_list`)
+            window.location.replace(`http://127.0.0.1:8000/accounts/account_page/doctor_appointment_list`)
         }
     })
+
 }
 
 function deletePrescriptionRow(button) {
@@ -198,4 +200,6 @@ function getCuredDiagnosisIDs() {
 
     return curedDiagnosisIDs
 }
+
+
 

@@ -195,9 +195,10 @@ def doctor_appointment_list(request):
         return HttpResponseRedirect(reverse('doctor_appointment_list'))
     
     context['appointment_list'] = __fetch_doctor_appointment_list(doctor_id)
-    print(context['appointment_list'])
+    pprint(context['appointment_list'])
     
     return render(request, 'doctor_appointment_list.html', context)
+
 
 
 
@@ -336,7 +337,7 @@ def __fetch_doctor_appointment_list(doctor_id):
                        JOIN accounts_availability AS ava ON app.doctor_schedule_id = ava.id
                        JOIN accounts_patient AS acc ON app.patient_id = acc.id
                        JOIN auth_user AS user ON acc.user_id = user.id
-                       WHERE doctor_id = {doctor_id} AND (date > CURDATE()
+                       WHERE app.status = 'p' AND doctor_id = {doctor_id} AND (date > CURDATE()
                        OR (date = CURDATE() AND start_time > CURTIME()))
                        ORDER BY date, start_time, appointment_id
                        ''')
