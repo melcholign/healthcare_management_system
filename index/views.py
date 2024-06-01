@@ -5,25 +5,25 @@ from django.urls import reverse
 from datetime import datetime
 from util.decorators import account_permission
 from util.functions import dictfetchall, next_weekday_date, get_account_id
-from accounts.views import isLoggedIn
+from accounts.views import configureNavBar
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
 import json
 
 # Create your views here.
 
-def configureNavBar(request, context):
-    for key, value in request.session.items():
-        print(f"Key: {key}, Value: {value}")
-    if isLoggedIn(request):
-        with connection.cursor() as cursor:
-            cursor.execute(f'''select first_name, last_name from auth_user where id = {value['account_id']}
-                               ''')
-            row = cursor.fetchone()
-            context['firstName'] = row[0]
-            context['lastName'] = row[1] 
-            context['account_type'] = value['account_type']
-            context["isLoggedIn"] = isLoggedIn(request)
+# def configureNavBar(request, context):
+#     for key, value in request.session.items():
+#         print(f"Key: {key}, Value: {value}")
+#     if isLoggedIn(request):
+#         with connection.cursor() as cursor:
+#             cursor.execute(f'''select first_name, last_name from auth_user where id = {value['account_id']}
+#                                ''')
+#             row = cursor.fetchone()
+#             context['firstName'] = row[0]
+#             context['lastName'] = row[1] 
+#             context['account_type'] = value['account_type']
+#             context["isLoggedIn"] = isLoggedIn(request)
 
 def home(request):
     context = {}
@@ -174,7 +174,8 @@ def diagnosis(request, appointmentID):
 def doctor_appointment_list(request):
     context = {}
     configureNavBar(request, context)
-    doctor_id = 2
+    account_data = request.session['account_data']
+    doctor_id = get_account_id(account_data['account_id'], account_data['account_type'])
     
     if request.method == 'POST':
         post_data = request.POST
@@ -193,6 +194,7 @@ def doctor_appointment_list(request):
         return HttpResponseRedirect(reverse('doctor_appointment_list'))
     
     context['appointment_list'] = __fetch_doctor_appointment_list(doctor_id)
+    print(context['appointment_list'])
     
     return render(request, 'doctor_appointment_list.html', context)
 
@@ -336,6 +338,8 @@ def __fetch_doctor_appointment_list(doctor_id):
                        ORDER BY date, start_time, appointment_id
                        ''')
         appointments = dictfetchall(cursor)
+        
+        print(appointments)
         
         for appointment in appointments:
             # if the list is empty or the date on the last entry is not equal to that on appointment,

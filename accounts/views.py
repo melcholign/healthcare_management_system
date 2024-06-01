@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from datetime import date
-from util.functions import dictfetchall, get_account_id
+from util.functions import *
 from util.decorators import account_permission
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -26,13 +26,19 @@ def schedules(request):
                            FROM accounts_availability
                            WHERE doctor_id = {doctor_id} AND deleted = 0
                            ''')
-            context = dictfetchall(cursor)
-        
-        return JsonResponse(context, safe=False)
+            schedules = dictfetchall(cursor)
+            for schedule in schedules:
+                schedule['work_day_full'] = get_full_weekday_name(schedule['work_day'])
+                schedule['start_time'] = str(schedule['start_time'])
+                schedule['end_time'] = str(schedule['end_time'])
+                        
+        return render(request, 'schedules.html', {'schedules': schedules})
     
     if request.method == 'POST':
 
-        created = json.loads(request.body)['created']   
+        print(json.loads(request.body))
+
+        created = json.loads(request.body)
              
         with connection.cursor() as cursor:
             cursor.execute(f'''
@@ -40,17 +46,12 @@ def schedules(request):
                            VALUES ({doctor_id}, '{created['work_day']}', '{created['start_time']}', '{created['end_time']}', 0)
                            ''')
             
-            new_schedule = {
-                'id': cursor.lastrowid,
-                'work_day': created['work_day'],
-                'start_time': created['start_time'],
-                'end_time': created['end_time']
-            }
+            new_schedule_id = cursor.lastrowid
         
-        return JsonResponse(new_schedule, safe=False)
-            
+        return JsonResponse(new_schedule_id, safe=False)
+                    
     if request.method == 'DELETE':
-        deleted = json.loads(request.body)['deleted']
+        deleted = json.loads(request.body)
         
         with connection.cursor() as cursor:
             
@@ -100,25 +101,26 @@ def change_availability(request):
     
     return HttpResponseRedirect(reverse('account_page'))
 
-def isLoggedIn(request):
-    session_data = request.session
-    if 'account_data' in session_data:    
-        return True
-    else:
-        return False
+# def isLoggedIn(request):
+#     session_data = request.session
+#     if 'account_data' in session_data:    
+#         return True
+#     else:
+#         return False
     
 def configureNavBar(request, context):
-    for key, value in request.session.items():
-        print(f"Key: {key}, Value: {value}")
-    if isLoggedIn(request):
+    
+    if 'account_data' in request.session:
+        account_data = request.session['account_data']
+        
         with connection.cursor() as cursor:
-            cursor.execute(f'''select first_name, last_name from auth_user where id = {value['account_id']}
-                               ''')
+            cursor.execute(f'''select first_name, last_name from auth_user where id = {account_data['account_id']}''')
             row = cursor.fetchone()
+            
             context['firstName'] = row[0]
             context['lastName'] = row[1] 
-            context['account_type'] = value['account_type']
-            context["isLoggedIn"] = isLoggedIn(request)
+            context['account_type'] = account_data['account_type']
+            context["isLoggedIn"] = True
 
 
 def registerDoctor(request):

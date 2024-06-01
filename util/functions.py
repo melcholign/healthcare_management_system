@@ -44,3 +44,19 @@ def get_account_id(user_id, account_type):
         account_id = dictfetchall(cursor)[0]['id']
         
     return account_id
+
+def get_full_weekday_name(abbr_weekday_name):
+    if abbr_weekday_name == 'mon':
+        return 'Monday'
+    if abbr_weekday_name == 'tue':
+        return 'Tuesday'
+    if abbr_weekday_name == 'wed':
+        return 'Wednesday'
+    if abbr_weekday_name == 'thu':
+        return 'Thursday'
+    if abbr_weekday_name == 'fri':
+        return 'Friday'
+    if abbr_weekday_name == 'sat':
+        return 'Saturday'
+    if abbr_weekday_name == 'sun':
+        return 'Sunday'
