@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 
@@ -15,7 +14,7 @@
   <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/carousel/">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
-  
+
   <link href="/static/bootstrap.min.css" rel="stylesheet">
 
   <style>
@@ -134,14 +133,14 @@
       display: block !important;
     }
   </style>
-
+  {% block page_style %}{% endblock %}
   <link href="/static/index.css" rel="stylesheet">
   <link href="/static/sidebars.css" rel="stylesheet">
 </head>
 
 
 <body>
-  
+
   <header data-bs-theme="dark">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <div class="container-fluid">
@@ -152,11 +151,12 @@
         </button>-->
         <text>&nbsp;</text>
         <a class="navbar-brand" href="index.html" style="margin: 0px auto;">G5 Healthcare Manager</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" style="display:none">        
-      </button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" style="display:none">
+        </button>
 
-      <!-- potentially unnecessary element -->
-       <!-- <div class="collapse navbar-collapse" id="navbarCollapse">
+        <!-- potentially unnecessary element -->
+        <!-- <div class="collapse navbar-collapse" id="navbarCollapse">
         </div>-->
 
       </div>
@@ -170,72 +170,87 @@
     </div>
     <div class="offcanvas-body" data-bs-theme="dark">
       <ul class="list-unstyled ps-0">
-        
+
         {% if isLoggedIn %}
-          {% if account_type == 'patient' %}
+        {% if account_type == 'patient' %}
         <li class="mb-1">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
             Patient Dashboard
           </button>
           <div class="collapse" id="dashboard-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="/accounts/account_page/make_appointment" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Make an Appointment</a></li>
-              <li><a href="/accounts/account_page/patient_appointment_list" class="link-body-emphasis d-inline-flex text-decoration-none rounded">View Pending Appointments</a></li>
+              <li><a href="/accounts/account_page/make_appointment"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded">Make an Appointment</a></li>
+              <li><a href="/accounts/account_page/patient_appointment_list"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded">View Pending Appointments</a>
+              </li>
               <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Doctor Info</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Prescription</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Prescription</a>
+              </li>
               <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">History</a></li>
-            </ul>
-          </div>
-        </li>
-          {% else %}
-        <li class="mb-1">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-            Doctor Dashboard
-          </button>
-          <div class="collapse" id="orders-collapse">
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="/accounts/account_page/doctor_appointment_list" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Check Appointments</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Patient Info</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Disposal</a></li>
-              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">History</a></li>
-            </ul>
-          </div>
-        </li>
-          {% endif %}
-        <li class="border-top my-3"></li>
-        <li class="mb-1">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-            Account
-          </button>
-          <div class="collapse" id="account-collapse">
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a class="link-body-emphasis d-inline-flex text-decoration-none rounded">{{firstName}} {{lastName}} - {{account_type}}</a></li>
-              <li><a href="/accounts/account_logout" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign out</a></li>
             </ul>
           </div>
         </li>
         {% else %}
         <li class="mb-1">
-          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
-            Register
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+            Doctor Dashboard
           </button>
-          <div class="collapse" id="home-collapse">
+          <div class="collapse" id="orders-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="/accounts/registerPatient" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Patient Registration</a></li>
-              <li><a href="/accounts/registerDoctor" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Doctor Registration</a></li>
-              <li><a href="/accounts/account_login" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign in</a></li>
+              <li><a href="/accounts/account_page/doctor_appointment_list"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded">Check Appointments</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Patient Info</a>
+              </li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Disposal</a></li>
+              <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">History</a></li>
             </ul>
           </div>
         </li>
         {% endif %}
-        
+        <li class="border-top my-3"></li>
+        <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+            Account
+          </button>
+          <div class="collapse" id="account-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a class="link-body-emphasis d-inline-flex text-decoration-none rounded">{{firstName}} {{lastName}} -
+                  {{account_type}}</a></li>
+              <li><a href="/accounts/account_logout"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign out</a></li>
+            </ul>
+          </div>
+        </li>
+        {% else %}
+        <li class="mb-1">
+          <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+            data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
+            Register
+          </button>
+          <div class="collapse" id="home-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+              <li><a href="/accounts/registerPatient"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded">Patient Registration</a></li>
+              <li><a href="/accounts/registerDoctor"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded">Doctor Registration</a></li>
+              <li><a href="/accounts/account_login"
+                  class="link-body-emphasis d-inline-flex text-decoration-none rounded">Sign in</a></li>
+            </ul>
+          </div>
+        </li>
+        {% endif %}
+
       </ul>
     </div>
   </div>
 
 
 
-    <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
+  <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
       <a class="navbar-brand" href="#">Healthcare Management System</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -282,20 +297,20 @@
 
 
 
-{% block body %}{% endblock %}
+  {% block body %}{% endblock %}
 
 
 
 
-<!-- FOOTER -->
-<footer class="container">
-  <p class="float-end"><a href="#">Back to top</a></p>
-  <p>&copy; 2024 G5 Healthcare Management System</p>
-</footer>
-</main>
+  <!-- FOOTER -->
+  <footer class="container">
+    <p class="float-end"><a href="#">Back to top</a></p>
+    <p>&copy; 2024 G5 Healthcare Management System</p>
+  </footer>
+  </main>
 
-<script src="/static/bootstrap.bundle.min.js"></script>
-<script src="/static/sidebars.js"></script>
+  <script src="/static/bootstrap.bundle.min.js"></script>
+  <script src="/static/sidebars.js"></script>
 
 </body>
 

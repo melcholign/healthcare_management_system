@@ -40,6 +40,7 @@ def attend_appointment(request, appointment_id):
     if request.method == 'GET':
         
         with connection.cursor() as cursor:
+            cursor.execute(f'''UPDATE index_appointment SET status = 'v' WHERE id = {appointment_id} ''')
             
             cursor.execute(f'''
                            SELECT patient.id AS id, CONCAT(first_name, " ", last_name) AS name, 
@@ -238,13 +239,13 @@ def patient_appointment_list(request):
                                FROM index_appointment
                                WHERE id = {appointment_id}   
                                ''')
-                
+                                
             # request to cancel appointment
             else:
                 appointment_id = post_data['cancel']
                 
                 # Delete appointment record using appointment_id
-                cursor.execute(f'DELETE FROM index_appointment WHERE id={appointment_id}')
+            cursor.execute(f'DELETE FROM index_appointment WHERE id={appointment_id}')
     
     # Update appointment statuses
     __update_appointments(patient_id)
@@ -315,7 +316,7 @@ def make_appointment(request):
             else:
                 cursor.execute(f'''INSERT INTO index_appointment(doctor_schedule_id, patient_id, date, status) 
                                VALUES ({schedule_id}, {patient_id}, "{date}", "p")''')
-                return redirect("/")
+                return redirect(reverse('make_appointment'))
                 
    
     context['doctor_schedule_list'] = __fetch_doctor_schedule_list(patient_id)
@@ -389,7 +390,7 @@ def __fetch_patient_appointment_list(patient_id):
                        JOIN accounts_institution as inst ON workplace_id=address
                        JOIN auth_user AS user ON user_id=user.id
                        WHERE patient_id={patient_id}
-                       ORDER BY date, start_time
+                       ORDER BY date DESC, start_time DESC
                        ''')
         return dictfetchall(cursor)
     

@@ -4,56 +4,6 @@
 
 {% block body %}
 
-<style>
-    table {
-        border-collapse: collapse;
-        width: 90%;
-    }
-
-    th, td {
-        border: 1px solid black;
-        padding: 8px;
-        text-align: center;
-    }
-
-    th {
-        background-color: #cbc6c6;
-    }
-
-    .cancel, .reschedule {
-        color: white;
-        font-weight: bold;
-        font-size: 1.2rem;
-        padding: 6px 12px;
-        border: none;
-        cursor: pointer;
-    }
-
-    .cancel {
-        background-color: indianred;
-    }
-
-    .reschedule {
-        background-color: darkgreen;
-    }
-
-    .status-p {
-        font-weight: bold;
-        color: darkorange;
-    }
-
-    .status-v {
-        font-weight: bold;
-        color: limegreen;
-    }
-
-    .status-m {
-        font-weight: bold;
-        color: red;
-    }
-</style>
-
-
 <table style="margin: 100px;">
     <thead>
         <th>Date</th>
@@ -103,4 +53,59 @@
 </table>
 {% endblock %}
 
+{% block page_style %}
+<style>
+    table {
+        border-collapse: collapse;
+        width: 90%;
+    }
 
+    table tr:nth-child(2n) {
+        background-color: rgb(229, 229, 229);
+    }
+
+    th,
+    td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #cbc6c6;
+    }
+
+    .cancel,
+    .reschedule {
+        color: white;
+        font-weight: bold;
+        font-size: 1.2rem;
+        padding: 6px 12px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .cancel {
+        background-color: indianred;
+    }
+
+    .reschedule {
+        background-color: darkgreen;
+    }
+
+    .status-p {
+        font-weight: bold;
+        color: darkorange;
+    }
+
+    .status-v {
+        font-weight: bold;
+        color: limegreen;
+    }
+
+    .status-m {
+        font-weight: bold;
+        color: red;
+    }
+</style>
+{% endblock %}
